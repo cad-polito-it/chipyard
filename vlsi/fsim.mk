@@ -25,7 +25,7 @@ $(FSIM_CONF): $(sim_common_files) check-binary
 	echo "  fsim_generate_faults: '$(FSIM_GENERATE_FAULTS)'" >> $@
 	echo "  standard_fault_format: '$(STANDARD_FAULT_FORMAT)'" >> $@
 	echo "  campaign_simv_daidir: 'simv.daidir'" >> $@
-	echo "  fault_model: '$(FAULT_MODEL)'" >> $@
+	echo "  fault_model: '$(FAULT_MODEL_FSIM)'" >> $@
 	echo "  top_module: $(VLSI_TOP)" >> $@
 	echo "  tb_name: '$(FSIM_CAMPAIGN_DUT)'" >> $@
 	echo "  strobe_module: '$(STROBE_MODULE) "

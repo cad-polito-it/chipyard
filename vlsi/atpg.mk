@@ -1,5 +1,5 @@
 ATPG_CONF = $(OBJ_DIR)/atpg-inputs.yml
-FAULT_MODEL ?= "saf"
+FAULT_MODEL_ATPG ?= "saf"
 
 .PHONY: $(ATPG_CONF)
 
@@ -12,7 +12,7 @@ $(ATPG_CONF):
 	@echo "  input_files:" >> $@
 	@echo "    - '' " >> $@
 	@echo "  input_files_meta: 'append'" >> $@
-	@echo "  fault_model: '$(FAULT_MODEL)'" >> $@
+	@echo "  fault_model: '$(FAULT_MODEL_ATPG)'" >> $@
 ifdef PATTERNS_FILE
 	@echo "  patterns_file: '$(PATTERNS_FILE)'" >> $@
 endif
