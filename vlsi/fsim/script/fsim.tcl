@@ -10,5 +10,5 @@ create_testcases -name {"test1"} \
 fsim -verbose 
 
 # Write results report
-report -campaign  chiptop0 -report fsim_out.rpt -overwrite
+report -format standard -campaign  chiptop0 -report fsim_out.rpt -overwrite
 report -campaign  chiptop0 -report fsim_out_hier.rpt -overwrite -hierarchical 100
