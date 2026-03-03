@@ -12,7 +12,7 @@ sim_dir=$(abspath .)
 #########################################################################################
 # include shared variables
 #########################################################################################
-include $(vlsi_dir)/benchmarks-utils/benchmarks.mk
+include $(vlsi_dir)/benchmark-utils/benchmarks.mk
 include $(vlsi_dir)/tutorial.mk
 include $(base_dir)/variables.mk
 

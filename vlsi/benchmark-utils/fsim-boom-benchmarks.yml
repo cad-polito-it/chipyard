@@ -75,8 +75,8 @@ fsim.inputs:
 
   # Strobe position if strobe file is not provided
   strobe_modules: [
-    "`TOPLEVEL..system.tile_prci_domain.element_reset_domain_boom_tile.core.FpPipeline.fregfile.regfile_ext.Memory", 
-    "`TOPLEVEL..system.tile_prci_domain.element_reset_domain_boom_tile.core.iregfile.regfile_ext.Memory", 
+    "`TOPLEVEL.system.tile_prci_domain.element_reset_domain_boom_tile.core.FpPipeline.fregfile.regfile_ext.Memory", 
+    "`TOPLEVEL.system.tile_prci_domain.element_reset_domain_boom_tile.core.iregfile.regfile_ext.Memory", 
     "`TOPLEVEL.system.plic_domain.plic.out_back_front_q"
   ]
 

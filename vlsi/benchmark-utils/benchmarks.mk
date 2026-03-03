@@ -43,7 +43,7 @@ ifeq ($(benchmarks),nangate45-commercial-rocket-many-peripherals)
     FSIM_CONF_FILE       ?= benchmark-utils/fsim-rocket-benchmarks.yml
     FAULT_MODEL_FSIM     ?= saf
     FSIM_GENERATE_FAULTS ?= 0
-    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/benchmark-utils/fault_list/gen_tf_chiptop0.sff
+    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/gen_fsim/fault_list/$(FAULT_MODEL)_$(VLSI_MODEL_DUT_NAME).sff
     DESIGN_CONFS      ?= benchmark-utils/nangate45-commercial.yml \
                         $(if $(filter $(VLSI_TOP),Rocket), \
                             benchmark-utils/nangate45-rocket.yml, )
@@ -61,7 +61,7 @@ ifeq ($(benchmarks),nangate45-commercial-boom-medium)
     FSIM_CONF_FILE       ?= benchmark-utils/fsim-boom-benchmarks.yml
     FAULT_MODEL_FSIM     ?= saf
     FSIM_GENERATE_FAULTS ?= 0
-    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/benchmark-utils/fault_list/gen_tf_chiptop0.sff
+    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/gen_fsim/fault_list/$(FAULT_MODEL)_$(VLSI_MODEL_DUT_NAME).sff
     DESIGN_CONFS      ?= benchmark-utils/nangate45-commercial.yml \
                         $(if $(filter $(VLSI_TOP),Rocket), \
                             benchmark-utils/nangate45-rocket.yml, )
@@ -79,7 +79,7 @@ ifeq ($(benchmarks),nangate45-commercial-boom-small)
     FSIM_CONF_FILE       ?= benchmark-utils/fsim-boom-benchmarks.yml
     FAULT_MODEL_FSIM     ?= saf
     FSIM_GENERATE_FAULTS ?= 0
-    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/benchmark-utils/fault_list/gen_tf_chiptop0.sff
+    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/gen_fsim/fault_list/$(FAULT_MODEL)_$(VLSI_MODEL_DUT_NAME).sff
     DESIGN_CONFS      ?= benchmark-utils/nangate45-commercial.yml \
                         $(if $(filter $(VLSI_TOP),Rocket), \
                             benchmark-utils/nangate45-rocket.yml, )
@@ -97,7 +97,7 @@ ifeq ($(benchmarks),nangate45-commercial-boom-mega)
     FSIM_CONF_FILE       ?= benchmark-utils/fsim-boom-benchmarks.yml
     FAULT_MODEL_FSIM     ?= saf
     FSIM_GENERATE_FAULTS ?= 0
-    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/benchmark-utils/fault_list/gen_tf_chiptop0.sff
+    STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/gen_fsim/fault_list/$(FAULT_MODEL)_$(VLSI_MODEL_DUT_NAME).sff
     DESIGN_CONFS      ?= benchmark-utils/nangate45-commercial.yml \
                         $(if $(filter $(VLSI_TOP),Rocket), \
                             benchmark-utils/nangate45-rocket.yml, )
