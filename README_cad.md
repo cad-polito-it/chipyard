@@ -130,6 +130,16 @@ $ make syn tutorial=nangate45-commercial-rocket
 ```
 For modifying the synthesis script see ```chipyard/vlsi/hammer-synopsys-plugins/hammer/synthesis/dc/__init__.py ``
 
+# Static timing analysis 
+
+For generating Static timing analysis reports (including slack-based report for generating small delay faults):
+```bash 
+$ cd vlsi
+$ make timing-syn tutorial=nangate45-commercial-rocket
+```
+
+The file used for both the ATPG and FSIM flow for the Small Delay Faults is ``build_dir/timing-syn-rundir/reports/report_global_slack.rpt``. 
+
 # Simulating the Gate-level
 For running post synthesis simulation:
 ```bash 

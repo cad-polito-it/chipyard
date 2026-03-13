@@ -7,3 +7,4 @@ module load cadence/innovus/19.11_000
 module load synopsys/verdi/2024.09-SP1
 module load synopsys/spyglass/2023.12-SP1
 module load synopsys/zoix/2024.09-SP1
+module load synopsys/primetime/2024.09-SP2

@@ -76,3 +76,6 @@ atpg.testmax.add_faults_args: ["-all"]
 
 # Optional Fault generation options
 fsim.vc_zoix.fcc_additional_args: ["-excludecolloff"]
+
+# No need of def file for timing
+timing.inputs.def_file : ""
