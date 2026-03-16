@@ -41,7 +41,7 @@ fsim.inputs:
 
   # Strobe position if strobe file is not provided
   strobe_modules: [
-    "`TOPLEVEL.system.tile_prci_domain.element_reset_domain_rockettile.core", 
+    "`TOPLEVEL.system.tile_prci_domain.element_reset_domain_rockettile.corez", 
     "`TOPLEVEL.system.tile_prci_domain.element_reset_domain_rockettile.fpuOpt"
   ]
 
