@@ -3,8 +3,8 @@ FSIM_CAMPAIGN_DUT ?= TestDriver.testHarness.$(VLSI_MODEL_DUT_NAME)
 FSIM_STROBE_FILE ?= $(vlsi_dir)/fsim/strobe/strobe_rocket.sv
 FSIM_CAMPAIGN_TCL ?= $(vlsi_dir)/fsim/script/fsim.tcl
 FAULT_MODEL ?= saf
-FSIM_GENERATE_FAULTS ?= 1
-STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/fsim/fault_list/gen_$(FAULT_MODEL)_$(VLSI_MODEL_DUT_NAME).sff
+# Use an empty standard fault format to force the fault list generation
+STANDARD_FAULT_FORMAT ?= ""
 ifneq ($(CUSTOM_VLOG),)
 	FSIM_OUTPUT_FOLDER          ?= $(vlsi_dir)/fsim-output/$(VLSI_TOP)
 else
@@ -22,7 +22,6 @@ $(FSIM_CONF): $(sim_common_files) check-binary
 	echo "  strobe_file_name: '$(FSIM_STROBE_FILE)'" >> $@
 	echo "  campaign_tcl: '$(FSIM_CAMPAIGN_TCL)'" >> $@
 	echo "  output_folder: '$(FSIM_OUTPUT_FOLDER)'" >> $@
-	echo "  fsim_generate_faults: '$(FSIM_GENERATE_FAULTS)'" >> $@
 	echo "  standard_fault_format: '$(STANDARD_FAULT_FORMAT)'" >> $@
 	echo "  campaign_simv_daidir: 'simv.daidir'" >> $@
 	echo "  fault_model: '$(FAULT_MODEL)'" >> $@
