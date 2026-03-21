@@ -182,6 +182,22 @@ $ export TEST_PATH=absolute_path/tests/hello.riscv
 $ make fsim-syn tutorial=nangate45-commercial-rocket SUB_PROJECT=chipyard BINARY=${TEST_PATH} LOADMEM=${TEST_PATH}
 ```
 
+You can reuse fault list from the ATPG step (see next section for more details):
+```bash 
+$ cd vlsi
+$ export TEST_PATH=absolute_path/tests/hello.riscv
+$ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list
+```
+
+> **_NOTE:_** For functional fault simulation of delay-based fault models the testbench clock period must be overwritten by the synthesis clock defined in the yaml file instead of the clock defined in the makefiles:
+```bash 
+$ cd vlsi
+$ export TEST_PATH=absolute_path/tests/hello.riscv
+$ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list CLOCK_PERIOD=SYNTHESIS_CLOCK
+```
+
+You can increase the timeout cycles by setting the ``TIMEOUT_CYCLES=xx`` in the CLI.
+
 # ATPG (Automatic Test Pattern Generation)
 
 For ATPG, Synopsys TestMAX is used. The ATPG flow runs on the gate-level netlist produced by synthesis. The configuration is defined in [``atpg.mk``](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/vlsi/atpg.mk) and the tool binary/version in [``example-tools.yml``](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/vlsi/example-tools.yml).
@@ -270,3 +286,18 @@ make redo-fsim-syn  tutorial=nangate45-commercial-boom-small BINARY=${TEST_PATH}
 For different tutorial and subprojects please see:
 - [./vlsi/tutorial.mk](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/vlsi/Makefile)
 - [./variables.mk](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/variables.mk)
+
+## Reuse ATPG fault list for functional fault simulation
+You can reuse the ATPG fault list for a functional fault simulation with the following command:
+```bash 
+make fsim-syn  tutorial=nangate45-commercial-boom-small BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/PATH/to/atpg/fault_listlfa.fau
+```
+> **_NOTE:_** The fault list can be a custom fault list (fau or standard fault format).
+
+# Contacts 
+Feel free to contribute with issues, PRs.
+You can contact us at:
+    - Francesco Angione (francesco.angione@polito.it)
+    - Nicola di Gruttola giardino (nicola@digruttola@polito.it)
+    - Gabriele Filipponi (gabriele.filipponi@polito.it)
+    - Giusy Iaria  (giusy.iaria@polito.it)
