@@ -1,6 +1,8 @@
 set_config -global_max_jobs 16 
-set_config -fsim_std_args "-fsim=limit+hyperactive+0"
-
+set_config -fsim_std_args "-fsim=limit+hyperactive+20"
+set_config -fsim_mode concurrent
+set_config -update_interval 120 ; # in seconds
+set_config -enable_intermediate_results 1
 ## DYNAMIC RUNTIME - Do not modify from this! The __init__.py checks for the args string to parse the required arguments
 create_testcases -name {"test1"} \
     -exec ./simv \
@@ -8,6 +10,10 @@ create_testcases -name {"test1"} \
 
 # Start fault simulation
 fsim -verbose 
+
+# Switch to serial mode for problematic faults in the concurrent mode
+set_config -fsim_mode serial
+catch {fsim -selected_status {IA IF DE DF}}
 
 # Write results report
 report -format standard -campaign  chiptop0 -report fsim_out.rpt -overwrite
