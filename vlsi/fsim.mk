@@ -25,6 +25,9 @@ $(FSIM_CONF): $(sim_common_files) check-binary
 	echo "  standard_fault_format: '$(STANDARD_FAULT_FORMAT)'" >> $@
 	echo "  campaign_simv_daidir: 'simv.daidir'" >> $@
 	echo "  fault_model: '$(FAULT_MODEL)'" >> $@
+ifeq ($(FAULT_MODEL),sdf)
+	echo "  timing_annotated: true" >> $@
+endif
 	echo "  top_module: $(VLSI_TOP)" >> $@
 	echo "  tb_name: '$(FSIM_CAMPAIGN_DUT)'" >> $@
 	echo "  strobe_module: '$(STROBE_MODULE) "
@@ -83,6 +86,12 @@ redo-fsim-syn: override HAMMER_EXTRA_ARGS += -p $(FSIM_CONF) -p $(FSIM_CONF_FILE
 redo-fsim-syn-$(VLSI_TOP): override HAMMER_EXTRA_ARGS += -p $(FSIM_CONF) -p $(FSIM_CONF_FILE)
 redo-fsim-syn: override HAMMER_SIM_RUN_DIR = fsim-syn-rundir
 redo-fsim-syn-$(VLSI_TOP): override HAMMER_SIM_RUN_DIR = fsim-syn-$(VLSI_TOP)
+
+ifeq ($(FAULT_MODEL),sdf)
+HAMMER_FSIM_TIMING_DEPENDENCIES = timing-syn
+fsim-syn: override HAMMER_SIM_EXTRA_ARGS += -p -p $(FSIM_CONF) -p $(FSIM_CONF_FILE) -p $(OBJ_DIR)/timing-syn-rundir/timing-output-full.json
+redo-fsim-syn: override HAMMER_SIM_EXTRA_ARGS += -p  $(FSIM_CONF) -p $(FSIM_CONF_FILE) -p $(OBJ_DIR)/timing-syn-rundir/timing-output-full.json
+endif
 
 fsim-rtl: $(FSIM_CONF)
 fsim-rtl-$(VLSI_TOP): $(FSIM_CONF)
