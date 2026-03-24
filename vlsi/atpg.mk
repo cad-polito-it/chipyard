@@ -1,5 +1,5 @@
 ATPG_CONF = $(OBJ_DIR)/atpg-inputs.yml
-FAULT_MODEL ?= "saf"
+FAULT_MODEL ?= saf
 
 .PHONY: $(ATPG_CONF)
 
@@ -21,13 +21,19 @@ ifdef FAULTS_FILE
 endif
 
 # ATPG targets that forward generated config to hammer
-# Ensure synthesis (sim-syn) runs before ATPG so ATPG only runs when synth exists.
+# Ensure synthesis (syn) runs before ATPG so ATPG only runs when synth exists.
 atpg-syn: $(ATPG_CONF)
 atpg-syn-$(VLSI_TOP): $(ATPG_CONF)
 atpg-syn: override HAMMER_ATPG_EXTRA_ARGS += -p $(ATPG_CONF) -p $(vlsi_dir)/$(TOOLS_CONF) -p $(vlsi_dir)/$(DESIGN_CONFS)
 atpg-syn-$(VLSI_TOP): override HAMMER_ATPG_EXTRA_ARGS += -p $(ATPG_CONF) -p $(vlsi_dir)/$(TOOLS_CONF) -p $(vlsi_dir)/$(DESIGN_CONFS)
 atpg-syn: override HAMMER_ATPG_RUN_DIR = atpg-syn-rundir
 atpg-syn-$(VLSI_TOP): override HAMMER_ATPG_RUN_DIR = atpg-syn-$(VLSI_TOP)
+
+ifeq ($(FAULT_MODEL),sdf)
+HAMMER_ATPG_TIMING_DEPENDENCIES = timing-syn
+atpg-syn: override HAMMER_ATPG_EXTRA_ARGS += -p $(ATPG_CONF) -p $(vlsi_dir)/$(TOOLS_CONF) -p $(vlsi_dir)/$(DESIGN_CONFS) -p $(OBJ_DIR)/timing-syn-rundir/timing-output-full.json
+redo-atpg-syn: override HAMMER_ATPG_EXTRA_ARGS += -p $(ATPG_CONF) -p $(vlsi_dir)/$(TOOLS_CONF) -p $(vlsi_dir)/$(DESIGN_CONFS) -p $(OBJ_DIR)/timing-syn-rundir/timing-output-full.json
+endif
 
 redo-atpg-syn: $(ATPG_CONF) syn-to-atpg
 redo-atpg-syn-$(VLSI_TOP): $(ATPG_CONF) syn-to-atpg
