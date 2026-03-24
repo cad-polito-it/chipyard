@@ -4,6 +4,7 @@ vlsi.core.build_system: make
 vlsi.core.synthesis_tool: "hammer.synthesis.dc"
 synthesis.dc.version: "SYN_2022.12"
 synthesis.spyglass.version: "2023.12-SP1"
+synthesis.library_compiler.version: "LC_2024.09-SP2"
 vlsi.core.synthesis_tool.compile_args : ["-scan", "-incremental", " -no_autoungroup" , "-no_boundary_optimization"]
 vlsi.core.max_threads: 16
 # Innovus options
@@ -28,7 +29,7 @@ fsim.vc_zoix.vc_fcm_bin : "${synopsys.synopsys_home}/Z01X_${fsim.vc_zoix.version
 fsim.vc_zoix.vcs_home : "${synopsys.synopsys_home}/VCS_${sim.vcs.version}"
 fsim.vc_zoix.verdi_home : "${synopsys.synopsys_home}/VERDI_${sim.vcs.version}"
 sim.vcs.version: "2024.09-SP1"
-sim.vcs.vcs_bin: "${synopsys.synopsys_home}/VCS$_{sim.vcs.version}/bin/vcs"
+sim.vcs.vcs_bin: "${synopsys.synopsys_home}/VCS_${sim.vcs.version}/bin/vcs"
 sim.vcs.vcs_home: "${synopsys.synopsys_home}/VCS_${sim.vcs.version}"
 sim.vcs.verdi_home: "${synopsys.synopsys_home}/VERDI_${sim.vcs.version}"
 vlsi.core.atpg_tool: "hammer.atpg.testmax"
