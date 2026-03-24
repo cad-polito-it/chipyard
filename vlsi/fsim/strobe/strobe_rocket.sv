@@ -6,7 +6,7 @@
 module strobe;
 
 initial begin        
-  #10;
+  #`RESET_DELAY;
   $display("BEFORE ZOIX INJECTION");
   $fs_inject;
   $display("ZOIX INJECTION");
