@@ -89,7 +89,7 @@ redo-fsim-syn-$(VLSI_TOP): override HAMMER_SIM_RUN_DIR = fsim-syn-$(VLSI_TOP)
 
 ifeq ($(FAULT_MODEL),sdf)
 HAMMER_FSIM_TIMING_DEPENDENCIES = timing-syn
-fsim-syn: override HAMMER_SIM_EXTRA_ARGS += -p -p $(FSIM_CONF) -p $(FSIM_CONF_FILE) -p $(OBJ_DIR)/timing-syn-rundir/timing-output-full.json
+fsim-syn: override HAMMER_SIM_EXTRA_ARGS += -p $(FSIM_CONF) -p $(FSIM_CONF_FILE) -p $(OBJ_DIR)/timing-syn-rundir/timing-output-full.json
 redo-fsim-syn: override HAMMER_SIM_EXTRA_ARGS += -p  $(FSIM_CONF) -p $(FSIM_CONF_FILE) -p $(OBJ_DIR)/timing-syn-rundir/timing-output-full.json
 endif
 
