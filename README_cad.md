@@ -189,14 +189,20 @@ $ export TEST_PATH=absolute_path/tests/hello.riscv
 $ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list
 ```
 
-> **_NOTE:_** For functional fault simulation of delay-based fault models the testbench clock period must be overwritten by the synthesis clock defined in the yaml file instead of the clock defined in the makefiles:
+> **_NOTE:_** For functional fault simulation of delay-based fault models the testbench clock period must be overwritten by the synthesis clock defined in the yaml file instead of the clock defined in the makefiles, in nanoseconds (without including the unit of measure):
 ```bash 
 $ cd vlsi
 $ export TEST_PATH=absolute_path/tests/hello.riscv
-$ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list CLOCK_PERIOD=SYNTHESIS_CLOCK
+$ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list CLOCK_PERIOD=SYNTHESIS_CLOCK FSIM_CONF_FILE=vlsi_dir/fsim/example-fsim-rocket-sdf.yml
 ```
 
 You can increase the timeout cycles by setting the ``TIMEOUT_CYCLES=xx`` in the CLI.
+
+You can use a custom TCL script for your fault simulation campaign, for example:
+$ cd vlsi
+$ export TEST_PATH=absolute_path/tests/hello.riscv
+$ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list CLOCK_PERIOD=SYNTHESIS_CLOCK FSIM_CONF_FILE=vlsi_dir/fsim/example-fsim-rocket-sdf.yml FSIM_CAMPAIGN_TCL=vlsi_dir/fsim/script/fsim_sdf.tcl FAULT_MODEL=sdf
+```
 
 # ATPG (Automatic Test Pattern Generation)
 
@@ -217,15 +223,18 @@ $ make redo-atpg-syn tutorial=nangate45-commercial-rocket
 
 ## Fault models
 
-The currently available fault models are:
+The currently available fault models are (for atpg and fsim):
 - **Stuck-at fault (SAF)**: specify ``FAULT_MODEL=saf``
 - **Transition delay fault (TDF)**: specify ``FAULT_MODEL=tdf``
+- **Small Delay faults (SDF)**: specify ``FAULT_MODEL=sdf``
 
 By default, the fault model is **stuck-at fault (saf)**. To use a different fault model, pass the ``FAULT_MODEL`` variable:
 ```bash 
 $ cd vlsi
 $ make atpg-syn tutorial=nangate45-commercial-rocket FAULT_MODEL=tdf
 ```
+
+> **_NOTE:_** For correctly fault simulating SDF model you must use a timing annotated fault simulation (including standard delay format and slack based report from timing tool)
 
 ## Custom patterns and faults files
 
@@ -234,6 +243,8 @@ You can provide a custom patterns file or faults file via the ``PATTERNS_FILE`` 
 $ cd vlsi
 $ make atpg-syn tutorial=nangate45-commercial-rocket PATTERNS_FILE=path/to/patterns_file FAULTS_FILE=path/to/faults_file
 ```
+
+> **_NOTE:_** For SDF you must generate the slack based report with a timing tool.
 
 ## Configuring ATPG
 
