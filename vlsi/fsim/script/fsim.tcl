@@ -8,13 +8,17 @@ create_testcases -name {"test1"} \
     -exec ./simv \
     -args ""
 
+report -format standard -campaign  chiptop0 -report pre_fsim_out.rpt -overwrite
+report -campaign  chiptop0 -print -summaryonly ;  # Print on STDOUT
 # Start fault simulation
 fsim -verbose 
 
 # Switch to serial mode for problematic faults in the concurrent mode
 set_config -fsim_mode serial
-catch {fsim -selected_status {IA IF DE DF}}
+catch {fsim -selected_status {HA IA IF DE DF}}
 
 # Write results report
+report -campaign  chiptop0 -print -summaryonly ;  # Print on STDOUT
+report -campaign  chiptop0 -summaryonly -report fsim_out_summary.rpt -overwrite
 report -format standard -campaign  chiptop0 -report fsim_out.rpt -overwrite
 report -campaign  chiptop0 -report fsim_out_hier.rpt -overwrite -hierarchical 100
