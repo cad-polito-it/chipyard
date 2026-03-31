@@ -98,11 +98,11 @@ technology.cnfet5.install_dir: "/data/libraries/CNFET-OCL/CNFET5"
 ```
 
 Currently available Tehcnology library:
-    - ASAP7 
-    - CNFET5
-    - CNFET7
-    - NANGATE15
-    - NANGATE45
+- [ASAP7](https://github.com/The-OpenROAD-Project/asap7) 
+- [CNFET5](https://github.com/uec-hpc-lab/CNFET-OCL/tree/main) 
+- [CNFET7](https://github.com/uec-hpc-lab/CNFET-OCL/tree/main) 
+- [NANGATE15](https://si2.org/open-cell-and-free-pdk-libraries/)
+- [NANGATE45](https://si2.org/open-cell-and-free-pdk-libraries/)
 
 You can set the used technology library by acting on the ``tech_name`` variable:
 ```bash 
@@ -349,7 +349,7 @@ make fsim-syn  tutorial=nangate45-commercial-boom-small BINARY=${TEST_PATH} LOAD
 # Contacts 
 Feel free to contribute with issues, PRs.
 You can contact us at:
-    - Francesco Angione (francesco.angione@polito.it)
-    - Nicola di Gruttola giardino (nicola@digruttola@polito.it)
-    - Gabriele Filipponi (gabriele.filipponi@polito.it)
-    - Giusy Iaria (giusy.iaria@polito.it)
+- Francesco Angione (francesco.angione@polito.it)
+- Nicola di Gruttola giardino (nicola,.digruttola@polito.it)
+- Gabriele Filipponi (gabriele.filipponi@polito.it)
+- Giusy Iaria (giusy.iaria@polito.it)
