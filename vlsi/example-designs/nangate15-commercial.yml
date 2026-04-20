@@ -1,6 +1,6 @@
 # Specify clock signals
 vlsi.inputs.clocks: [
-  {name: "clock_uncore", period: "50ns", uncertainty: "2ns"}
+  {name: "clock_uncore", period: "10ns", uncertainty: "2ns"}
 ]
 
 vlsi.inputs.resets: [
