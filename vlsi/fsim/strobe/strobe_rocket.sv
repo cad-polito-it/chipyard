@@ -4,7 +4,9 @@
 
 module strobe;
 
+`ifndef START_INJECTION 
 `define START_INJECTION 32'h80000230
+`endif /* START_INJECTION */
 
 initial begin        
   #`RESET_DELAY;
