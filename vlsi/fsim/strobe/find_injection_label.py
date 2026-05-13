@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 DEFAULT_OBJDUMP = "riscv64-unknown-elf-objdump"
-DEFAULT_DEFINE = "START_INJECTION"
+DEFAULT_DEFINE = "START_INJECTION_LABEL"
 DEFAULT_STROBE_FILE = Path(__file__).with_name("strobe_rocket.sv")
 
 

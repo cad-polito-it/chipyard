@@ -176,7 +176,10 @@ Using a custom objdump binary and strobe file:
 $ python3 vlsi/fsim/strobe/find_main.py tests/hello.riscv main --objdump riscv64-unknown-linux-gnu-objdump --strobe-file vlsi/fsim/strobe/strobe_rocket.sv
 ```
 
-If multiple symbols match, the script exits and prints candidate symbols so you can pass a more specific label.
+If multiple symbols match, the script exits and prints candidate symbols so you can pass a more specific label. 
+```bash
+$ make fsim-syn tutorial=nangate45-commercial-rocket START_INJECTION_LABEL=0x80000230
+```
 
 ## Fault Simulating the RTL-level
 For running RTL-Level fault simulation:
@@ -191,7 +194,7 @@ For running post synthesis fault simulation:
 ```bash 
 $ cd vlsi
 $ export TEST_PATH=absolute_path/tests/hello.riscv
-$ make fsim-syn tutorial=nangate45-commercial-rocket SUB_PROJECT=chipyard BINARY=${TEST_PATH} LOADMEM=${TEST_PATH}
+$ make fsim-syn tutorial=nangate45-commercial-rocket SUB_PROJECT=chipyard BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} 
 ```
 
 # ATPG (Automatic Test Pattern Generation)
