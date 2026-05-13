@@ -140,3 +140,16 @@ ifeq ($(tutorial),nangate45-commercial-boom-mega)
     VLSI_OBJ_DIR      ?= build-nangate45-commercial-boom
     INPUT_CONFS       ?= $(TOOLS_CONF) $(TECH_CONF) $(DESIGN_CONFS) $(EXTRA_CONFS)
 endif
+
+ifeq ($(tutorial),nangate45-commercial-cva6)
+	CONFIG            = CVA6Config
+    HAMMER_EXEC       =  vlsi-cva6
+    tech_name         ?= nangate45
+    TOOLS_CONF        ?= example-tools.yml
+    TECH_CONF         ?= example-nangate45.yml
+    FSIM_CONF_FILE    ?= fsim/example-fsim-boom.yml
+    DESIGN_CONFS      ?= example-designs/nangate45-commercial.yml
+    VLSI_OBJ_DIR      ?= build-nangate45-commercial-cva6
+    INPUT_CONFS       ?= $(TOOLS_CONF) $(TECH_CONF) $(DESIGN_CONFS) $(EXTRA_CONFS)
+endif
+
