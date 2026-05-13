@@ -1,6 +1,6 @@
 # Specify clock signals
 vlsi.inputs.clocks: [
-  {name: "clock_uncore", period: "30ns", uncertainty: "2ns"}
+  {name: "clock_uncore", period: "10ns", uncertainty: "2ns"}
 ]
 
 vlsi.inputs.resets: [
@@ -34,7 +34,7 @@ synthesis.dc.dft.scan.ports : [
 synthesis.dc.dft.scan.clock_ports: [
   {"name" : "jtag_TCK", "active_state" : "1", "timings" : ["45" , "95"] },
   {"name" : "clock_uncore", "active_state" : "1", "timings" : ["45" , "95"] },
-  {"name" : "serial_tl_0_clock_in", "active_state" : "1", "timings" : ["45" , "95"] }
+#  {"name" : "serial_tl_0_clock_in", "active_state" : "1", "timings" : ["45" , "95"] }
 ]
 
 synthesis.dc.dft.reset_ports : [

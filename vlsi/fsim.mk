@@ -3,8 +3,8 @@ FSIM_CAMPAIGN_DUT ?= TestDriver.testHarness.$(VLSI_MODEL_DUT_NAME)
 FSIM_STROBE_FILE ?= $(vlsi_dir)/fsim/strobe/strobe_rocket.sv
 FSIM_CAMPAIGN_TCL ?= $(vlsi_dir)/fsim/script/fsim.tcl
 FAULT_MODEL ?= saf
-FSIM_GENERATE_FAULTS ?= 1
-STANDARD_FAULT_FORMAT ?= $(vlsi_dir)/fsim/fault_list/gen_$(FAULT_MODEL)_$(VLSI_MODEL_DUT_NAME).sff
+# Use an empty standard fault format to force the fault list generation
+STANDARD_FAULT_FORMAT ?= ""
 ifneq ($(CUSTOM_VLOG),)
 	FSIM_OUTPUT_FOLDER          ?= $(vlsi_dir)/fsim-output/$(VLSI_TOP)
 else
@@ -22,10 +22,12 @@ $(FSIM_CONF): $(sim_common_files) check-binary
 	echo "  strobe_file_name: '$(FSIM_STROBE_FILE)'" >> $@
 	echo "  campaign_tcl: '$(FSIM_CAMPAIGN_TCL)'" >> $@
 	echo "  output_folder: '$(FSIM_OUTPUT_FOLDER)'" >> $@
-	echo "  fsim_generate_faults: '$(FSIM_GENERATE_FAULTS)'" >> $@
 	echo "  standard_fault_format: '$(STANDARD_FAULT_FORMAT)'" >> $@
 	echo "  campaign_simv_daidir: 'simv.daidir'" >> $@
 	echo "  fault_model: '$(FAULT_MODEL)'" >> $@
+ifeq ($(FAULT_MODEL),sdf)
+	echo "  timing_annotated: true" >> $@
+endif
 	echo "  top_module: $(VLSI_TOP)" >> $@
 	echo "  tb_name: '$(FSIM_CAMPAIGN_DUT)'" >> $@
 	echo "  strobe_module: '$(STROBE_MODULE) "
@@ -98,5 +100,12 @@ fsim-syn: override HAMMER_SIM_EXTRA_ARGS += -p $(FSIM_CONF) -p $(FSIM_CONF_FILE)
 fsim-syn-$(VLSI_TOP): override HAMMER_SIM_EXTRA_ARGS += -p $(FSIM_CONF) -p $(FSIM_CONF_FILE)
 fsim-syn: override HAMMER_SIM_RUN_DIR = fsim-syn-rundir
 fsim-syn-$(VLSI_TOP): override HAMMER_SIM_RUN_DIR = fsim-syn-$(VLSI_TOP)
+
+ifeq ($(FAULT_MODEL),sdf)
+HAMMER_FSIM_TIMING_DEPENDENCIES = timing-syn
+fsim-syn: override HAMMER_EXTRA_ARGS += -p $(OBJ_DIR)/timing-syn-rundir/timing-output.json
+redo-fsim-syn: override HAMMER_EXTRA_ARGS += -p $(OBJ_DIR)/timing-syn-rundir/timing-output.json
+endif
+
 
 $(OBJ_DIR)/fsim-%/fsim-output-full.json: private override HAMMER_EXTRA_ARGS += $(HAMMER_SIM_EXTRA_ARGS)

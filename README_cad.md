@@ -98,11 +98,11 @@ technology.cnfet5.install_dir: "/data/libraries/CNFET-OCL/CNFET5"
 ```
 
 Currently available Tehcnology library:
-    - ASAP7 
-    - CNFET5
-    - CNFET7
-    - NANGATE15
-    - NANGATE45
+- [ASAP7](https://github.com/The-OpenROAD-Project/asap7) 
+- [CNFET5](https://github.com/uec-hpc-lab/CNFET-OCL/tree/main) 
+- [CNFET7](https://github.com/uec-hpc-lab/CNFET-OCL/tree/main) 
+- [NANGATE15](https://si2.org/open-cell-and-free-pdk-libraries/)
+- [NANGATE45](https://si2.org/open-cell-and-free-pdk-libraries/)
 
 You can set the used technology library by acting on the ``tech_name`` variable:
 ```bash 
@@ -229,6 +229,22 @@ $ export TEST_PATH=absolute_path/tests/hello.riscv
 $ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list
 ```
 
+> **_NOTE:_** For functional fault simulation of delay-based fault models the testbench clock period must be overwritten by the synthesis clock defined in the yaml file instead of the clock defined in the makefiles, in nanoseconds (without including the unit of measure):
+```bash 
+$ cd vlsi
+$ export TEST_PATH=absolute_path/tests/hello.riscv
+$ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list CLOCK_PERIOD=SYNTHESIS_CLOCK FSIM_CONF_FILE=vlsi_dir/fsim/example-fsim-rocket-sdf.yml
+```
+
+You can increase the timeout cycles by setting the ``TIMEOUT_CYCLES=xx`` in the CLI.
+
+You can use a custom TCL script for your fault simulation campaign, for example:
+```bash
+$ cd vlsi
+$ export TEST_PATH=absolute_path/tests/hello.riscv
+$ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list CLOCK_PERIOD=SYNTHESIS_CLOCK FSIM_CONF_FILE=vlsi_dir/fsim/example-fsim-rocket-sdf.yml FSIM_CAMPAIGN_TCL=vlsi_dir/fsim/script/fsim_sdf.tcl FAULT_MODEL=sdf
+```
+
 # ATPG (Automatic Test Pattern Generation)
 
 For ATPG, Synopsys TestMAX is used. The ATPG flow runs on the gate-level netlist produced by synthesis. The configuration is defined in [``atpg.mk``](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/vlsi/atpg.mk) and the tool binary/version in [``example-tools.yml``](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/vlsi/example-tools.yml).
@@ -248,15 +264,18 @@ $ make redo-atpg-syn tutorial=nangate45-commercial-rocket
 
 ## Fault models
 
-The currently available fault models are:
-- **Stuck-at fault (SAF)**: specify ``FAULT_MODEL_ATPG=saf``
-- **Transition delay fault (TDF)**: specify ``FAULT_MODEL_ATPG=tdf``
+The currently available fault models are (for atpg and fsim):
+- **Stuck-at fault (SAF)**: specify ``FAULT_MODEL=saf``
+- **Transition delay fault (TDF)**: specify ``FAULT_MODEL=tdf``
+- **Small Delay faults (SDF)**: specify ``FAULT_MODEL=sdf``
 
 By default, the fault model is **stuck-at fault (saf)**. To use a different fault model, pass the ``FAULT_MODEL_ATPG`` variable:
 ```bash 
 $ cd vlsi
 $ make atpg-syn tutorial=nangate45-commercial-rocket FAULT_MODEL_ATPG=tdf
 ```
+
+> **_NOTE:_** For correctly fault simulating SDF model you must use a timing annotated fault simulation (including standard delay format and slack based report from timing tool)
 
 ## Custom patterns and faults files
 
@@ -265,6 +284,8 @@ You can provide a custom patterns file or faults file via the ``PATTERNS_FILE`` 
 $ cd vlsi
 $ make atpg-syn tutorial=nangate45-commercial-rocket PATTERNS_FILE=path/to/patterns_file FAULTS_FILE=path/to/faults_file
 ```
+
+> **_NOTE:_** For SDF you must generate the slack based report with a timing tool.
 
 ## Configuring ATPG
 
@@ -318,11 +339,17 @@ For different tutorial and subprojects please see:
 - [./vlsi/tutorial.mk](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/vlsi/Makefile)
 - [./variables.mk](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/variables.mk)
 
+## Reuse ATPG fault list for functional fault simulation
+You can reuse the ATPG fault list for a functional fault simulation with the following command:
+```bash 
+make fsim-syn  tutorial=nangate45-commercial-boom-small BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/PATH/to/atpg/fault_listlfa.fau
+```
+> **_NOTE:_** The fault list can be a custom fault list (fau or standard fault format).
 
 # Contacts 
 Feel free to contribute with issues, PRs.
 You can contact us at:
-    - Francesco Angione (francesco.angione@polito.it)
-    - Nicola di Gruttola giardino (nicola@digruttola@polito.it)
-    - Gabriele Filipponi (gabriele.filipponi@polito.it)
-    - Giusy Iaria  (giusy.iaria@polito.it)
+- Francesco Angione (francesco.angione@polito.it)
+- Nicola di Gruttola giardino (nicola,.digruttola@polito.it)
+- Gabriele Filipponi (gabriele.filipponi@polito.it)
+- Giusy Iaria (giusy.iaria@polito.it)

@@ -6,7 +6,6 @@ fsim.inputs:
 
   # Determine the weights of all the parameters in the test and fault coverage
   weights: [
-    {fault_class: "DC", weight: "1.0"},
     {fault_class: "PT", weight: "1.0"}
   ]
 
@@ -76,6 +75,7 @@ fsim.inputs:
   # Strobe position if strobe file is not provided
   strobe_modules: [
     "TestDriver.testHarness.chiptop0.system.tile_prci_domain.element_reset_domain_boom_tile.core", 
+    "TestDriver.testHarness.chiptop0.system.tile_prci_domain.element_reset_domain_boom_tile.core.iregfile.regfile_ext",
   ]
 
   # Contraints for the sff file - Example on how to use
