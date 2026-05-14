@@ -142,8 +142,8 @@ ifeq ($(tutorial),nangate45-commercial-boom-mega)
 endif
 
 ifeq ($(tutorial),nangate45-commercial-cva6)
-	CONFIG            = CVA6Config
-    HAMMER_EXEC       =  vlsi-cva6
+    CONFIG            = CVA6Config
+    HAMMER_EXEC       =  ./vlsi-cva6
     tech_name         ?= nangate45
     TOOLS_CONF        ?= example-tools.yml
     TECH_CONF         ?= example-nangate45.yml
