@@ -194,7 +194,7 @@ For running post synthesis fault simulation:
 ```bash 
 $ cd vlsi
 $ export TEST_PATH=absolute_path/tests/hello.riscv
-$ make fsim-syn tutorial=nangate45-commercial-rocket SUB_PROJECT=chipyard BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} 
+$ make fsim-syn tutorial=nangate45-commercial-rocket SUB_PROJECT=chipyard BINARY=${TEST_PATH} LOADMEM=${TEST_PATH}
 ```
 
 # ATPG (Automatic Test Pattern Generation)
