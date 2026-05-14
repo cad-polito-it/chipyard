@@ -206,6 +206,31 @@ export SIM_USE_GUI=true
 
 For fault simulation, vc-zoix is used. Under vlsi/fsim-utilities the sff files, strobe and tcl for fault simulation are present. Modify only the SystemVerilog strobe file and the sff files. Modify the ```FAULT_MODEL_FSIM``` in the fsim.mk file to choose between the 3 available fault models.
 
+## Auto-update the program counter from which the VC-Z01X injection shall start
+
+The script `vlsi/fsim/strobe/find_main.py` can automatically set the address used by `START_INJECTION` in `vlsi/fsim/strobe/strobe_rocket.sv`.
+
+Given a RISC-V ELF/binary and a label substring, it:
+- runs RISC-V objdump (`-t`) on the binary,
+- finds the symbol containing the label,
+- rewrites `START_INJECTION` with the resolved address.
+
+Example:
+```bash
+$ cd chipyard
+$ python3 vlsi/fsim/strobe/find_main.py tests/hello.riscv main
+```
+
+Using a custom objdump binary and strobe file:
+```bash
+$ python3 vlsi/fsim/strobe/find_main.py tests/hello.riscv main --objdump riscv64-unknown-linux-gnu-objdump --strobe-file vlsi/fsim/strobe/strobe_rocket.sv
+```
+
+If multiple symbols match, the script exits and prints candidate symbols so you can pass a more specific label. 
+```bash
+$ make fsim-syn tutorial=nangate45-commercial-rocket START_INJECTION_LABEL=0x80000230
+```
+
 ## Fault Simulating the RTL-level
 For running RTL-Level fault simulation:
 ```bash 
