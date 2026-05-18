@@ -213,7 +213,7 @@ The currently available fault models are (for atpg and fsim):
 - **Stuck-at fault (SAF)**: specify ``FAULT_MODEL=saf``
 - **Transition delay fault (TDF)**: specify ``FAULT_MODEL=tdf``
 - **Small Delay faults (SDF)**: specify ``FAULT_MODEL=sdf``
-- **Transient faults (TRN))**: specify ``FAULT_MODEL=trn`` (only for functional fault simulation)
+- **Transient faults (TRN))**: specify ``FAULT_MODEL=tn`` (only for functional fault simulation)
 
 ## Auto-update the program counter from which the VC-Z01X injection shall start
 
