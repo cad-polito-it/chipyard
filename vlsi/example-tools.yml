@@ -2,7 +2,7 @@
 vlsi.core.build_system: make
 # Design Compiler options
 vlsi.core.synthesis_tool: "hammer.synthesis.dc"
-synthesis.dc.version: "SYN_2022.12"
+synthesis.dc.version: "SYN_2024.09-SP2"
 synthesis.spyglass.version: "2023.12-SP1"
 synthesis.library_compiler.version: "LC_2024.09-SP2"
 vlsi.core.synthesis_tool.compile_args : ["-scan", "-incremental", " -no_autoungroup" , "-no_boundary_optimization"]

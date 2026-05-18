@@ -206,6 +206,15 @@ export SIM_USE_GUI=true
 
 For fault simulation, vc-zoix is used. Under vlsi/fsim-utilities the sff files, strobe and tcl for fault simulation are present. Modify only the SystemVerilog strobe file and the sff files. Modify the ```FAULT_MODEL_FSIM``` in the fsim.mk file to choose between the 3 available fault models.
 
+
+## Fault models
+
+The currently available fault models are (for atpg and fsim):
+- **Stuck-at fault (SAF)**: specify ``FAULT_MODEL=saf``
+- **Transition delay fault (TDF)**: specify ``FAULT_MODEL=tdf``
+- **Small Delay faults (SDF)**: specify ``FAULT_MODEL=sdf``
+- **Transient faults (TRN))**: specify ``FAULT_MODEL=tn`` (only for functional fault simulation)
+
 ## Auto-update the program counter from which the VC-Z01X injection shall start
 
 The script `vlsi/fsim/strobe/find_main.py` can automatically set the address used by `START_INJECTION` in `vlsi/fsim/strobe/strobe_rocket.sv`.
@@ -269,6 +278,52 @@ $ cd vlsi
 $ export TEST_PATH=absolute_path/tests/hello.riscv
 $ make fsim-syn tutorial=nangate45-commercial-rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list CLOCK_PERIOD=SYNTHESIS_CLOCK FSIM_CONF_FILE=vlsi_dir/fsim/example-fsim-rocket-sdf.yml FSIM_CAMPAIGN_TCL=vlsi_dir/fsim/script/fsim_sdf.tcl FAULT_MODEL=sdf
 ```
+## The FSIM folder in VLSI 
+
+This repository packages fault-simulation collateral (fault lists, Tcl runtime scripts, and strobe logic) that can be consumed from a Hammer:
+- `fault_list/`
+  - Pre-generated fault-definition files (`*.sff`) used by Zoix/VC FSim campaigns.
+  - Includes examples for different fault models:
+    - `gen_saf_*.sff`: stuck-at faults
+    - `gen_tdf_*.sff`: transition-delay faults
+    - `gen_tf_*.sff`: timing-window style generation
+
+- `script/`
+  - Tcl scripts that execute or assist fault simulation campaigns.
+  - `fsim.tcl`: primary campaign runtime (concurrent run, fallback serial run, summary and hierarchical reports).
+  - `fsim_vcstatic.tcl`: alternate script with static/formal-style setup and report generation.
+  - `vc_rtl.tcl`: RTL VCF setup (clock/reset initialization).
+  - `vc_netlist.tcl`: netlist VCF setup, including DFT/test pin constraints.
+
+- `strobe/`
+  - SystemVerilog strobe modules with `$fs_inject` and `$fs_strobe` hooks.
+  - `strobe_rocket.sv`: Rocket-specific strobe and optional label-gated injection.
+  - `strobe_boom.sv`, `strobe_boomv4.sv`: BOOM-specific strobe variants.
+  - `find_injection_label.py`: utility to extract a symbol address from an ELF and patch `START_INJECTION_LABEL` in `strobe_rocket.sv`.
+
+- `example-fsim-*.yml`
+  - Example high-level input configs (`fsim.inputs`) for SAF/TDF/SDF style setups.
+  - These describe fault locations, coverage formulae, optional elaboration flags, strobe modules, and constraints.
+
+You can use the provided `example-fsim-*.yml` files as templates to create your own input configurations for different fault models and DUTs. The YAML format allows you to specify various parameters such as the fault list file, strobe module, coverage formula, and any additional constraints or filters for fault locations. Make sure to adjust the paths and parameters according to your specific design and verification needs.
+
+You can use your custom strobe files, fault lists by passing the appropriate variables to the make command, e.g.:
+
+```bash
+$ make fsim \
+    FSIM_INPUTS=example-fsim-saf.yml \
+    FSIM_STROBE=strobe_rocket.sv \
+    FSIM_FAULT_LIST=fault_list/gen_saf_rocket.sff
+```
+
+## Notes and Caveats
+
+- Hierarchical paths in YAML/SFF/strobe files are design-specific (`ChipTop...`). Update if your elaborated hierarchy differs.
+- `strobe_rocket.sv` depends on `wb_reg_pc` path and the `START_INJECTION_LABEL` macro; verify signal naming in your build.
+- `vc_netlist.tcl` includes OR1200-specific constants and constraints; use as a template if your DUT is not OR1200.
+- Keep fault location filters (`exclude: True/False`) aligned between your YAML and generated SFF to avoid mismatches.
+
+
 
 # ATPG (Automatic Test Pattern Generation)
 
