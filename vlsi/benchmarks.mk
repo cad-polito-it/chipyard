@@ -36,7 +36,7 @@ endif
 
 
 ifeq ($(benchmark),boom-small)
-    CONFIG            = IbexConfig
+    CONFIG            = SmallBoomV3Config
     generated_src_name ?= generated-src-$(tech_name)
     HAMMER_EXEC       = ./example-vlsi
     TOOLS_CONF        ?= example-tools.yml
