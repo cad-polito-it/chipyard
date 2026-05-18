@@ -39,12 +39,12 @@ To get started with these VLSI benchmarks, you can proceed in two ways:
 ---
 ## Citation
 
-If you use this framework in your research, please cite the following publication:
+If you use this framework in your research, please cite the following publication (not yet available in IEEExplorer, to be presented at [IEEE ETS 2026](https://ets2026.uniwa.gr/conference-program/)):
 
 ```
 @INPROCEEDINGS{benchmarks,
   author={Angione, Francesco and Bernardi, Paolo and di Gruttola Giardino, Nicola and Filipponi, Gabriele and Iaria, Giusy and Perlo, Giacomo and Pomeranz, Irith and Porsia, Antonio and Ruospo, Annachiara and Sanchez, Ernesto and Turco, Vittorio},
-  booktitle={To appear in the proocedings of 2026 IEEE European Test Symposium (ETS)}, 
+  booktitle={2026 IEEE European Test Symposium (ETS)}, 
   title={Advances in Testing and Reliability Benchmarks}, 
   year={2026},
   volume={},
@@ -94,6 +94,6 @@ series = {DAC '22}
 Feel free to contribute with issues, PRs.
 You can contact us at:
 - Francesco Angione (francesco.angione@polito.it)
-- Nicola di Gruttola giardino (nicola,.digruttola@polito.it)
+- Nicola di Gruttola Giardino (nicola.digruttola@polito.it)
 - Gabriele Filipponi (gabriele.filipponi@polito.it)
 - Giusy Iaria (giusy.iaria@polito.it)
