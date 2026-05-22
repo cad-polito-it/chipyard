@@ -30,6 +30,7 @@ synthesis.dc.insert_dft.scan : true
 synthesis.dc.dft.scan.style : "multiplexed_flip_flop" 
 synthesis.dc.dft.scan.chain_count : 1
 synthesis.dc.dft.scan.ports : [
+  {"name" : "SI" , "direction" : "in" , "type": "ScanDataIn"  ,"exist" : false },
   {"name" : "jtag_TDI" , "direction" : "in" , "type": "ScanDataIn"  ,"exist" : true },
   {"name" : "jtag_TDO" , "direction" : "out" , "type": "ScanDataOut"  ,"exist" : true }
 ]
@@ -43,6 +44,13 @@ synthesis.dc.dft.reset_ports : [
   {"name" : "reset_io", "active_state" : "1"},
   {"name" : "jtag_reset", "active_state" : "1"},
 ]
+# LBIST configuration
+synthesis.dc.insert_dft.lbist: true
+synthesis.dc.dft.lbist.ports : [
+  {"name" : "LBIST_EN" , "direction" : "in" , "type": "lbistEnable"  ,"exist" : false },
+  {"name" : "LBIST_START" , "direction" : "in" , "type": "lbistStart"  ,"exist" : false },
+]
+synthesis.dc.dft.lbist.chain_count: 5
 # BSD and JTAG
 synthesis.dc.insert_dft.bsd : false # TODO implement boundary scan insertion during the synthesis 
 synthesis.dc.dft.jtag.clk : "jtag_TCK"
