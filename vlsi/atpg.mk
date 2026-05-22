@@ -1,5 +1,8 @@
 ATPG_CONF = $(OBJ_DIR)/atpg-inputs.yml
 FAULT_MODEL ?= saf
+TEST_MODE ?= SCAN
+LBIST_PATTERNS_NUMBER ?= 50
+LBIST_CAPTURE_CYCLES ?= 1
 
 .PHONY: $(ATPG_CONF)
 
@@ -12,7 +15,15 @@ $(ATPG_CONF):
 	@echo "  input_files:" >> $@
 	@echo "    - '' " >> $@
 	@echo "  input_files_meta: 'append'" >> $@
+ifeq ($(TEST_MODE),LBIST)
+	@echo "  lbist: true" >> $@
+	@echo "  lbist_patterns_number: $(LBIST_PATTERNS_NUMBER)" >> $@
+	@echo "  lbist_capture_cycles: $(LBIST_CAPTURE_CYCLES)" >> $@
+	@echo "  fault_model: 'saf'" >> $@
+else
+	@echo "  lbist: false" >> $@
 	@echo "  fault_model: '$(FAULT_MODEL)'" >> $@
+endif
 ifdef PATTERNS_FILE
 	@echo "  patterns_file: '$(PATTERNS_FILE)'" >> $@
 endif
