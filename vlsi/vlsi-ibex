@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+
+import os
+
+from hammer.vlsi import CLIDriver, HammerTool, HammerToolHookAction
+
+from typing import Dict, Callable, Optional, List
+
+def add_options(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.technology") == "hammer.technology.asap7":
+        # Needed by design compiler because asap7 has no three state cells
+        if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+            x.append("set_app_var compile_assume_fully_decoded_three_state_busses true")
+    return True 
+
+
+def connect_black_box_signals(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.technology") == "hammer.technology.asap7":
+            if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+                # Connect top level black box's signals (unconnected) to scan signals
+                x.append("disconnect_net [all_connected system/tile_prci_domain/element_reset_domain_ibex_tile/core/test_en_i] system/tile_prci_domain/element_reset_domain_ibex_tile/core/test_en_i")
+                x.append("connect_pin -from [get_port test_mode]  -to system/tile_prci_domain/element_reset_domain_ibex_tile/core/test_en_i  -port_name test_en_i_core")    
+                x.append("disconnect_net [all_connected system/tile_prci_domain/element_reset_domain_ibex_tile/core/scan_rst_ni] system/tile_prci_domain/element_reset_domain_ibex_tile/core/scan_rst_ni")
+                x.append("connect_pin -from [get_port test_mode] -to system/tile_prci_domain/element_reset_domain_ibex_tile/core/scan_rst_ni  -port_name scan_rst_ni_core")    
+    return True 
+
+
+def connect_clk_en_reg(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.technology") == "hammer.technology.asap7":
+        if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+            x.append("disconnect_net [all_connected clock_en_reg/RESET] clock_en_reg/RESET")
+            x.append("connect_pin -from [get_nets n_debug_reset_syncd_debug_reset_sync_io_q ] -to clock_en_reg/RESET ")
+            x.append("connect_pin -from  [get_ports test_mode] -to [get_nets system/tile_prci_domain/element_reset_domain_ibex_tile/core/test_en_i] ")    
+            x.append("set test_fix_bus true")
+    return True
+    
+class ExampleDriver(CLIDriver):
+    def get_extra_synthesis_hooks(self) -> List[HammerToolHookAction]:
+        extra_hooks = [
+            HammerTool.make_post_insertion_hook("init_environment", add_options),
+            HammerTool.make_pre_insertion_hook("configure_dft", connect_clk_en_reg),
+            HammerTool.make_post_insertion_hook("configure_dft", connect_black_box_signals),
+        ]
+        return extra_hooks
+
+if __name__ == '__main__':
+    ExampleDriver().main()

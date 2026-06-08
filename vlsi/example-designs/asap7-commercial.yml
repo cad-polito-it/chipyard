@@ -2,17 +2,25 @@ vlsi.core.max_threads: 12
 
 # General Hammer Inputs
 
-# Hammer will auto-generate a CPF for simple power designs; see hammer/src/hammer-vlsi/defaults.yml for more info
-vlsi.inputs.power_spec_mode: "auto"
-vlsi.inputs.power_spec_type: "cpf"
 
 # Specify clock signals
 vlsi.inputs.clocks: [
-  {name: "clock_uncore", period: "1ns", uncertainty: "0.1ns"}
+  {name: "clock_uncore", period: "1ns", uncertainty: "0.01ns"}
 ]
 
+vlsi.inputs.resets: [
+  {name: "reset_io", active_negated: "false", "synchronous" : "false"}
+]
 # Generate Make include to aid in flow
 vlsi.core.build_system: make
+
+# Custom compile options 
+
+vlsi.core.synthesis_tool.compile_args : ["-scan", "-incremental", "-no_autoungroup" , "-gate_clock", "-no_boundary_optimization"]
+
+# Adding clock gating capabilties during the synthesis
+synthesis.clock_gating_mode : "auto"
+
 
 # Placement Constraints
 # For ASAP7, all numbers must be 4x larger than final GDS
@@ -89,8 +97,7 @@ synthesis.dc.dft.scan.ports : [
 ]
 synthesis.dc.dft.scan.clock_ports: [
   {"name" : "jtag_TCK", "active_state" : "1", "timings" : ["45" , "95"] },
-  {"name" : "clock_uncore", "active_state" : "1", "timings" : ["45" , "95"] },
-  {"name" : "serial_tl_0_clock_in", "active_state" : "1", "timings" : ["45" , "95"] }
+  {"name" : "clock_uncore", "active_state" : "1", "timings" : ["45" , "95"] }
 ]
 
 synthesis.dc.dft.reset_ports : [
