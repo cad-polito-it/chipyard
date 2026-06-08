@@ -11,7 +11,7 @@ EXTRA_CONFS ?=
 ifeq ($(benchmark),ibex)
     CONFIG            = IbexConfig
     generated_src_name ?= generated-src-$(technology_name)
-    HAMMER_EXEC       = ./example-vlsi
+    HAMMER_EXEC       = ./vlsi-ibex
     TOOLS_CONF        ?= example-tools.yml
     TECH_CONF         ?= ./technology/$(technology_name).yml
     FSIM_CONF_FILE    ?= ./fsim/example-fsim.yml
