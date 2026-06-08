@@ -35,6 +35,20 @@ set_db route_design_top_routing_layer 7
 ''')
     return True
 
+def add_options(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.technology") == "hammer.technology.asap7":
+        # Needed by design compiler because asap7 has no three state cells
+        if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+            x.append("set_app_var compile_assume_fully_decoded_three_state_busses true")
+    return True 
+
+def connect_clk_en_reg(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.technology") == "hammer.technology.asap7":
+        if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+            x.append("disconnect_net [all_connected clock_en_reg/RESET] clock_en_reg/RESET")
+            x.append("connect_pin -from [get_nets n_debug_reset_syncd_debug_reset_sync_io_q ] -to clock_en_reg/RESET ")
+    return True
+
 class ExampleDriver(CLIDriver):
     def get_extra_par_hooks(self) -> List[HammerToolHookAction]:
         extra_hooks = [
@@ -54,6 +68,14 @@ class ExampleDriver(CLIDriver):
             HammerTool.make_removal_hook("place_bumps"),
 
             # The target step in any of the above calls may be a default step or another one of your custom hooks
+        ]
+        return extra_hooks
+
+    def get_extra_synthesis_hooks(self) -> List[HammerToolHookAction]:
+        extra_hooks = [
+            HammerTool.make_post_insertion_hook("init_environment", add_options),
+            HammerTool.make_pre_insertion_hook("configure_dft", connect_clk_en_reg),
+
         ]
         return extra_hooks
 
