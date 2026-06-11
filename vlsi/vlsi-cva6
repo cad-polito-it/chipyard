@@ -23,13 +23,38 @@ def dont_touch_srams(x: HammerTool) -> bool:
     x.append("set_dont_touch $ram")
     x.append("set_attribute $ram is_black_box true")
     x.append("}")
+
+    x.append("foreach_in_collection ram [get_references -hierarchical \"sram\"] {")
+    x.append("set_attribute $ram is_memory_cell true")
+    x.append("set_attribute $ram is_physical_black_box true" )
+    x.append("set_dont_touch $ram")
+    x.append("set_attribute $ram is_black_box true")
+    x.append("}")
+
+    return True
+
+def insert_internal_memory_collar(x: HammerTool) -> bool:
+    if x.get_setting("synthesis.dc.insert_dft.memory_wrapper"):
+        x.append(x.insert_test_points(["sram", "ram_ext"]))
+    return True
+
+def insert_atpg_memory_collar(x: HammerTool) -> bool:
+    x.additional_modules = [".*sram.*"]
     return True
 
 class ExampleDriver(CLIDriver):
     def get_extra_synthesis_hooks(self) -> List[HammerToolHookAction]:
         extra_hooks = [
             # Only for CVA6
-            HammerTool.make_pre_insertion_hook("optimize_design", dont_touch_srams)
+            HammerTool.make_pre_insertion_hook("optimize_design", dont_touch_srams),
+            HammerTool.make_post_insertion_hook("configure_dft", insert_internal_memory_collar)
+        ]
+        return extra_hooks
+
+    def get_extra_atpg_hooks(self) -> List[HammerToolHookAction]:
+        extra_hooks = [
+            # Only for CVA6
+            HammerTool.make_pre_insertion_hook("run_atpg", insert_atpg_memory_collar)
         ]
         return extra_hooks
 

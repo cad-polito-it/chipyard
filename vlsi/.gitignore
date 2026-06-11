@@ -5,6 +5,7 @@ build
 build-*
 src/test/output-*.json
 generated-src
+generated-src-*
 output.json
 output
 
