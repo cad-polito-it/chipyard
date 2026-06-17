@@ -3,7 +3,7 @@
 
 # VLSI Benchmarks for Hardware Testing
 
-![Status](https://img.shields.io/badge/Status-Research--Prototype-orange.svg)
+![Status](https://img.shields.io/badge/Status-Research--Prototype-orange.svg)![Badge](https://hitscounter.dev/api/hit?url=https%3A%2F%2Fgithub.com%2Fcad-polito-it%2Fchipyard&label=Visitors&icon=github&color=%23198754&message=&style=flat&tz=UTC)
 
 This repository implements a playground for an **Agile Framework for Prototyping Hardware Testing Structural and Functional Methodologies**. 
 
