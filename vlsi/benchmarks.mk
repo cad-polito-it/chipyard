@@ -7,6 +7,9 @@ toolchain ?= commercial
 
 EXTRA_CONFS ?=
 
+ifneq ($(benchmark),none)
+    tech_name ?= $(technology_name)
+endif 
 
 ifeq ($(benchmark),ibex)
     CONFIG            = IbexConfig
