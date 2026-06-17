@@ -150,7 +150,7 @@ You will find the executable in ``tests/sbst1/`` named ``sbst1.riscv``
 For running a simulation for a given configuration in [``variables.mk``](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/variables.mk) and a specified program (BINARY var points to the compiled program) from tests folder:
 ```bash 
 $ cd sims/vcs
-$ make SUB_PROJECT=chipyard_smallboom
+$ make verilog SUB_PROJECT=chipyard_smallboom
 $ make run-binary BINARY=../../tests/hello.riscv SUB_PROJECT=chipyard_smallboom LOADMEM=1
 ```
 It generates the verilog file and run the binary 
