@@ -86,42 +86,48 @@ vlsi.inputs.pin.assignments: [
 ]
 
 # Design Compiler DFT insertion option
-synthesis.dc.dft_insertion : true 
+synthesis.dft_insertion : true 
 # Scan configuration 
-synthesis.dc.insert_dft.scan : true 
-synthesis.dc.dft.scan.style : "multiplexed_flip_flop" 
-synthesis.dc.dft.scan.chain_count : 1
-synthesis.dc.dft.scan.ports : [
+synthesis.insert_dft.scan : true 
+synthesis.dft.scan.style : "multiplexed_flip_flop" 
+synthesis.dft.scan.chain_count : 1
+synthesis.dft.scan.ports : [
   {"name" : "jtag_TDI" , "direction" : "in" , "type": "ScanDataIn"  ,"exist" : true },
   {"name" : "jtag_TDO" , "direction" : "out" , "type": "ScanDataOut"  ,"exist" : true }
 ]
-synthesis.dc.dft.scan.clock_ports: [
+synthesis.dft.scan.clock_ports: [
   {"name" : "jtag_TCK", "active_state" : "1", "timings" : ["45" , "95"] },
   {"name" : "clock_uncore", "active_state" : "1", "timings" : ["45" , "95"] }
 ]
 
-synthesis.dc.dft.reset_ports : [
+synthesis.dft.reset_ports : [
   {"name" : "reset_io", "active_state" : "1"},
   {"name" : "jtag_reset", "active_state" : "1"},
 ]
 # BSD and JTAG
-synthesis.dc.insert_dft.bsd : false # TODO implement boundary scan insertion during the synthesis 
-synthesis.dc.dft.jtag.clk : "jtag_TCK"
-synthesis.dc.dft.jtag.tdi : "jtag_TDI"
-synthesis.dc.dft.jtag.tdo : "jtag_TDO"
-synthesis.dc.dft.jtag.tms : "jtag_TMS"
-synthesis.dc.dft.jtag.reset : "jtag_reset"
+synthesis.insert_dft.bsd : false # TODO implement boundary scan insertion during the synthesis 
+synthesis.dft.jtag.clk : "jtag_TCK"
+synthesis.dft.jtag.tdi : "jtag_TDI"
+synthesis.dft.jtag.tdo : "jtag_TDO"
+synthesis.dft.jtag.tms : "jtag_TMS"
+synthesis.dft.jtag.reset : "jtag_reset"
 # Memory Collar configuration 
-synthesis.dc.insert_dft.memory_wrapper : true 
+synthesis.insert_dft.memory_wrapper : true 
 # Scan compression configuration
-synthesis.dc.insert_dft.scan_compression : false # TODO implement scan compression insertion during the synthesis 
+synthesis.insert_dft.scan_compression : false # TODO implement scan compression insertion during the synthesis 
+
+# Set targeted fault coverage and number of generated test patterns from atpg
+atpg:
+  target_coverage: 98.5
+  # Maximum values 
+  max_test_patterns: 0
 
 # Args for the "set_drc" command in TestMAX
 atpg.testmax.set_drc_args: [""]
 # Args for the "run_drc" command in TestMAX, the spf file is automatically taken after the synthesis step
 atpg.testmax.run_drc_args: [""]
 # Args for the "set_atpg" command in TestMAX
-atpg.testmax.set_atpg_args: ["-coverage", "98.5"]
+atpg.testmax.set_atpg_args: [""]
 # Args for the "run_atpg" command in TestMAX
 atpg.testmax.run_atpg_args: ["-auto_compression"]
 # Args for the "run_fault_sim" command in TestMAX

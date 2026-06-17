@@ -52,7 +52,11 @@ class ClockSourceAtFreqMHz(val freqMHz: Double) extends BlackBox(Map(
       |    output clk);
       |  timeunit 1ns/1ps;
       |  reg clk_i = 1'b0;
+      |  `ifdef OVERWRITE_CLOCK_PERIOD
+      |  always #(`CLOCK_PERIOD/2.0) clk_i = ~clk_i & (power & ~gate);
+      |  `else
       |  always #(PERIOD/2.0) clk_i = ~clk_i & (power & ~gate);
+      |  `endif 
       |  assign clk = clk_i;
       |endmodule
       |""".stripMargin)
