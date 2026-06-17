@@ -17,7 +17,7 @@ ifeq ($(benchmark),ibex)
     HAMMER_EXEC       = ./vlsi-ibex
     TOOLS_CONF        ?= example-tools.yml
     TECH_CONF         ?= ./technology/$(technology_name).yml
-    FSIM_CONF_FILE    ?= ./fsim/example-fsim.yml
+    FSIM_CONF_FILE    ?= ./fsim/example-fsim-$(FAULT_MODEL).yml
     DESIGN_CONFS      ?= ./example-designs/$(technology_name)-$(toolchain).yml
     VLSI_OBJ_DIR      ?= build-$(technology_name)-$(toolchain)-$(benchmark)
     INPUT_CONFS       ?= $(TOOLS_CONF) $(TECH_CONF) $(DESIGN_CONFS) $(EXTRA_CONFS)
@@ -31,7 +31,7 @@ ifeq ($(benchmark),rocket)
     HAMMER_EXEC       = ./example-vlsi
     TOOLS_CONF        ?= example-tools.yml
     TECH_CONF         ?= ./technology/$(technology_name).yml
-    FSIM_CONF_FILE    ?= ./fsim/example-fsim.yml
+    FSIM_CONF_FILE    ?= ./fsim/example-fsim-$(FAULT_MODEL).yml
     DESIGN_CONFS      ?= ./example-designs/$(technology_name)-$(toolchain).yml
     VLSI_OBJ_DIR      ?= build-$(technology_name)-$(toolchain)-$(benchmark)
     INPUT_CONFS       ?= $(TOOLS_CONF) $(TECH_CONF) $(DESIGN_CONFS) $(EXTRA_CONFS)
@@ -44,7 +44,7 @@ ifeq ($(benchmark),boom-small)
     HAMMER_EXEC       = ./example-vlsi
     TOOLS_CONF        ?= example-tools.yml
     TECH_CONF         ?= ./technology/$(technology_name).yml
-    FSIM_CONF_FILE    ?= ./fsim/example-fsim.yml
+    FSIM_CONF_FILE    ?= ./fsim/example-fsim-$(FAULT_MODEL).yml
     DESIGN_CONFS      ?= ./example-designs/$(technology_name)-$(toolchain).yml
     VLSI_OBJ_DIR      ?= build-$(technology_name)-$(toolchain)-$(benchmark)
     INPUT_CONFS       ?= $(TOOLS_CONF) $(TECH_CONF) $(DESIGN_CONFS) $(EXTRA_CONFS)
@@ -57,7 +57,7 @@ ifeq ($(benchmark),cva6)
     HAMMER_EXEC       =  ./vlsi-cva6
     TOOLS_CONF        ?= example-tools.yml
     TECH_CONF         ?= ./technology/$(technology_name).yml
-    FSIM_CONF_FILE    ?= ./fsim/example-fsim.yml
+    FSIM_CONF_FILE    ?= ./fsim/example-fsim-$(FAULT_MODEL).yml
     DESIGN_CONFS      ?= ./example-designs/$(technology_name)-$(toolchain).yml
     VLSI_OBJ_DIR      ?= build-$(technology_name)-$(toolchain)-$(benchmark)
     INPUT_CONFS       ?= $(TOOLS_CONF) $(TECH_CONF) $(DESIGN_CONFS) $(EXTRA_CONFS)
@@ -70,7 +70,7 @@ ifeq ($(benchmark),radiance)
     HAMMER_EXEC       =  ./example-vlsi
     TOOLS_CONF        ?= example-tools.yml
     TECH_CONF         ?= ./technology/$(technology_name).yml
-    FSIM_CONF_FILE    ?= ./fsim/example-fsim.yml
+    FSIM_CONF_FILE    ?= ./fsim/example-fsim-$(FAULT_MODEL).yml
     DESIGN_CONFS      ?= ./example-designs/$(technology_name)-$(toolchain).yml
     VLSI_OBJ_DIR      ?= build-$(technology_name)-$(toolchain)-$(benchmark)
     INPUT_CONFS       ?= $(TOOLS_CONF) $(TECH_CONF) $(DESIGN_CONFS) $(EXTRA_CONFS)
