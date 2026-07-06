@@ -30,7 +30,7 @@
 	url = https://github.com/ucb-bar/berkeley-hardfloat.git
 [submodule "generators/ibex"]
 	path = generators/ibex
-	url = https://github.com/ucb-bar/ibex-wrapper.git
+	url = https://github.com/cad-polito-it/ibex-wrapper.git
 [submodule "generators/icenet"]
 	path = generators/icenet
 	url = https://github.com/firesim/icenet.git
@@ -60,7 +60,7 @@
 	url = https://github.com/ucb-bar/shuttle.git
 [submodule "generators/testchipip"]
 	path = generators/testchipip
-	url = https://github.com/ucb-bar/testchipip.git
+	url = https://github.com/cad-polito-it/testchipip.git
 [submodule "sims/firesim"]
 	path = sims/firesim
 	url = https://github.com/firesim/firesim.git
