@@ -100,6 +100,7 @@ echo '==> Installing espresso logic minimizer'
 
 echo '==>  Installing libgloss'
 CC= CXX= SRCDIR="$(pwd)/toolchains" module_all libgloss --prefix="${RISCV}/riscv${XLEN}-unknown-elf" --host=riscv${XLEN}-unknown-elf
+cd $(pwd)/toolchain/libgloss && mkdir build-32 && cd build-32 && ../configure --prefix=${RISCV}/riscv64-unknown-elf --host=riscv64-unknown-elf --enable-multilib='rv32imc_zicsr/ilp32' && make CFLAGS_FOR_TARGET="-march=rv32imc_zicsr -mabi=ilp32"
 
 cd $RDIR
 if [ $TOOLCHAIN == "riscv-tools" ]; then
