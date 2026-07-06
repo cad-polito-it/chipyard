@@ -173,6 +173,16 @@ class WithRadBootROM(address: BigInt = 0x10000, size: Int = 0x10000, hang: BigIn
     ))
 })
 
+class WithIbexBootROM(address: BigInt = 0x10000, size: Int = 0x10000, hang: BigInt = 0x10000) extends Config((site, here, up) => {
+  case BootROMLocated(x) => up(BootROMLocated(x))
+    .map(_.copy(
+      address = address,
+      size = size,
+      hang = hang,
+      contentFileName = ResourceFileName(s"/testchipip/bootrom/bootrom.ibex.rv32.img")
+    ))
+})
+
 class WithNoBusErrorDevices extends Config((site, here, up) => {
   case SystemBusKey => up(SystemBusKey).copy(errorDevice = None)
   case ControlBusKey => up(ControlBusKey).copy(errorDevice = None)
