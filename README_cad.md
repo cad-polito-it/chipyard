@@ -341,7 +341,7 @@ This repository packages fault-simulation collateral (fault lists, Tcl runtime s
 
 You can use the provided `example-fsim-*.yml` files as templates to create your own input configurations for different fault models and DUTs. The YAML format allows you to specify various parameters such as the fault list file, strobe module, coverage formula, and any additional constraints or filters for fault locations. Make sure to adjust the paths and parameters according to your specific design and verification needs.
 
-You can use your custom strobe files, fault lists by passing the appropriate variables to the make command, e.g.:
+You can use your custom strobe files, fault lists by passing the appropriate variables to the make command. In this case, the strobe and fault list definitions in the yml **are ignored**, for example:
 
 ```bash
 $ make fsim \
@@ -349,7 +349,6 @@ $ make fsim \
     FSIM_STROBE=strobe_rocket.sv \
     FSIM_FAULT_LIST=fault_list/gen_saf_rocket.sff
 ```
-In this case, the strobe and fault list definitions in the yml **are ignored**.
 
 ## Notes and Caveats
 
