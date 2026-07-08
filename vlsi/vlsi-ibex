@@ -65,7 +65,7 @@ def insert_internal_memory_collar(x: HammerTool) -> bool:
         x.append("identify_clock_gating")
         x.append("set_dft_clock_gating_pin {system/tile_prci_domain/element_reset_domain_ibex_tile/core/i_ibex/core_clock_gate_i} -pin_name test_en_i -control_signal TestMode")
         x.append("set_testability_configuration -target random_resistant")
-        x.append("set_testability_configuration -targetx_blocking")
+        x.append("set_testability_configuration -target x_blocking")
         x.append("set_testability_configuration -target multicycle_paths")
         x.append("set_testability_configuration -target atpg_conflict")
         x.append("set_test_assume 1 system/tile_prci_domain/element_reset_domain_ibex_tile/core/i_ibex/core_clock_gate_i")
