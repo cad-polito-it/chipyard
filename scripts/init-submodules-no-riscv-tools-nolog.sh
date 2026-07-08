@@ -255,10 +255,7 @@ cd "$RDIR"
 
     if [[ "$ENABLE_RADIANCE" -eq 1 ]] ; then
 	git submodule update --init --recursive generators/radiance || exit 1
-    git -C generators/radiance checkout 293aed34a80838c8897154583f95c23f702fe18c || exit 1
-    ## TODO temporary specific fix for radiance (checkout the latest developments) checkout gemmini at gemmini-mx-cleanup branch 
     git submodule update --init generators/gemmini || exit 1
-    git -C generators/gemmini checkout 3cd1a5548f4f06cedb47df8aec351e0d86363825 ||  exit 1 
     fi
 
     if [[ "$ENABLE_COMPRESSACC" -eq 1 ]] ; then
