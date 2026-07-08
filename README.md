@@ -57,6 +57,8 @@ export TOOLCHAIN=commercial
 export TEST_PATH=$(realpath ../tests/hello.riscv)
 ```
 
+Please refer to [README_cad.md](README_cad.md) for in-depth explanations.
+
 #### 1) Synthesis
 
 Run synthesis for the selected benchmark/technology/toolchain:
