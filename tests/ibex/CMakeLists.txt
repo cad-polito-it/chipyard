@@ -21,6 +21,14 @@ project(chipyard-tests LANGUAGES C CXX ASM)
 set(CMAKE_SYSTEM_NAME         "Generic" CACHE STRING "")
 set(CMAKE_SYSTEM_PROCESSOR    "riscv"   CACHE STRING "")
 
+if(NOT DEFINED ENV{CY_DIR})
+  message(FATAL_ERROR "CY_DIR environment variable must be set to the Chipyard repo root (export CY_DIR).")
+endif()
+
+if(NOT DEFINED ENV{RISCV_32})
+  message(FATAL_ERROR "RISCV_32 environment variable must be set to the RISCV-32 toolchain root.")
+endif()
+
 set(TOOLCHAIN_PREFIX    "${RISCV_32}/riscv64-unknown-elf-")
 
 set(CMAKE_AR            "${TOOLCHAIN_PREFIX}ar")
@@ -46,24 +54,24 @@ set(CMODEL              "medany")
 set(ARCH_FLAGS          -march=${ARCH} -mabi=${ABI} -mcmodel=${CMODEL})
 
 # spec
-set(SPECS               "${CY_DIR}/toolchains/libgloss/util/htif_nano.specs")
+set(SPECS               "$ENV{CY_DIR}/toolchains/libgloss/util/htif_nano.specs")
 set(SPEC_FLAGS          -specs=${SPECS})
 
 # linker script
-set(LINKER_SCRIPT       "${CY_DIR}/tests/htif.ld")
+set(LINKER_SCRIPT       "$ENV{CY_DIR}/tests/htif.ld")
 
 add_compile_options(-std=gnu99)
 add_compile_options(-O2 -Wall -Wextra)
 add_compile_options(-fno-common -fno-builtin-printf)
 add_compile_options(${ARCH_FLAGS})
 add_compile_options(${SPEC_FLAGS})
-add_compile_options("-I${CY_DIR}/toolchains/riscv-tools/riscv-pk/machine")
+add_compile_options("-I$ENV{CY_DIR}/toolchains/riscv-tools/riscv-pk/machine")
 add_link_options(-static)
 add_link_options(${SPEC_FLAGS})
 add_link_options(-T ${LINKER_SCRIPT})
 add_link_options(${ARCH_FLAGS})
 add_link_options(${SPEC_FLAGS})
-add_link_options("-L${CY_DIR}/toolchains/libgloss/build-32/rv32imc_zicsr/ilp32/")
+add_link_options("-L$ENV{CY_DIR}/toolchains/libgloss/build-32/rv32imc_zicsr/ilp32/")
 
 
 #################################
