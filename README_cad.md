@@ -304,7 +304,10 @@ $ make fsim-syn benchmark=rocket BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDA
 > $ make fsim-syn benchmark=rocket CLOCK_PERIOD=SYNTHESIS_CLOCK BINARY=${TEST_PATH} LOADMEM=${TEST_PATH} STANDARD_FAULT_FORMAT=/path/to/atpg_fault_list FSIM_CONF_FILE=vlsi_dir/fsim/example-fsim-rocket-sdf.yml 
 > ```
 
-You can increase the timeout cycles by setting the ``TIMEOUT_CYCLES=xx`` in the CLI (as for the ``CLOCK_PERIOD``).
+You can increase the timeout cycles by setting the ``TIMEOUT_CYCLES=xx`` in the CLI (as for the ``CLOCK_PERIOD``). 
+Their default values are:
+* ``TIMEOUT_CYCLES=10000000`` in [./variables.mk](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/variables.mk)
+* ``CLOCK_PERIOD=1`` nanosecond in  [./sims/common-sim-flags.mk](https://github.com/cad-polito-it/chipyard/blob/working/cad_servers/sims/common-sim-flags.mk)
 
 You can use a custom TCL script for your fault simulation campaign, for example:
 ```bash
