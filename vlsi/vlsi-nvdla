@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+#
+# NOTE: this ExampleDriver works for Ibex ONLY. 
+
+import os
+
+from hammer.vlsi import CLIDriver, HammerTool, HammerToolHookAction
+from hammer.tech.specialcells import CellType
+
+
+from typing import Dict, Callable, Optional, List
+
+def add_options(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.technology") == "hammer.technology.asap7":
+        # Needed by design compiler because asap7 has no three state cells
+        if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+            x.append("set_app_var compile_assume_fully_decoded_three_state_busses true")
+    if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+        x.append("set_app_var compile_seqmap_no_scan_cell true")
+        x.append("set_app_var compile_seqmap_identify_shift_registers false")
+        x.append("set_app_var test_validate_test_model_connectivity true")
+    return True 
+
+def connect_clk_en_reg(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.technology") == "hammer.technology.asap7":
+        x.append("set test_fix_bus true")
+        if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+            x.append("disconnect_net [all_connected clock_en_reg/RESET] clock_en_reg/RESET")
+            x.append("connect_pin -from [get_nets n_debug_reset_syncd_debug_reset_sync_io_q ] -to clock_en_reg/RESET ")
+    return True
+    
+
+
+def insert_internal_memory_collar(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+        if x.get_setting("synthesis.insert_dft.memory_wrapper"):
+            x.append(x.insert_test_points(["\"*nv_ram_rws*\""]))
+        x.append("identify_clock_gating")
+        x.append("set_testability_configuration -target random_resistant")
+        x.append("set_testability_configuration -targetx_blocking")
+        x.append("set_testability_configuration -target multicycle_paths")
+        x.append("set_testability_configuration -target atpg_conflict")
+
+    return True
+
+def add_black_boxes(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+      x.append("foreach_in_collection ram [get_references -hierarchical \"*nv_ram_rws*\"] {")
+      x.append("set_attribute $ram is_memory_cell true")
+      x.append("set_attribute $ram is_physical_black_box true" )
+      x.append("set_dont_touch $ram")
+      x.append("}")
+    return True 
+
+def insert_nofaults_modules(x: HammerTool) -> bool:
+    # Do not add faults around the following modules
+    x.additional_modules = [".*nv_ram_rws.*"]
+    return True
+
+def add_constraints(x: HammerTool) -> bool:
+    # x.append("add_pi_constraints 1 test_mode")
+    # x.append("add_pi_constraints 1 test_se")
+    return True
+
+class ExampleDriver(CLIDriver):
+    def get_extra_synthesis_hooks(self) -> List[HammerToolHookAction]:
+        extra_hooks = [
+            HammerTool.make_post_insertion_hook("init_environment", add_options),
+            HammerTool.make_post_insertion_hook("elaborate_design", add_black_boxes),
+            HammerTool.make_pre_insertion_hook("configure_dft", connect_clk_en_reg),
+            HammerTool.make_post_insertion_hook("configure_dft", insert_internal_memory_collar)
+
+        ]
+        return extra_hooks
+
+    def get_extra_atpg_hooks(self) -> List[HammerToolHookAction]:
+        extra_hooks = [
+            HammerTool.make_pre_insertion_hook("run_drc", add_constraints),
+            HammerTool.make_pre_insertion_hook("run_atpg", insert_nofaults_modules)
+        ]
+        return extra_hooks
+
+if __name__ == '__main__':
+    ExampleDriver().main()
