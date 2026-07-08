@@ -135,7 +135,7 @@ Currently available Tehcnology library:
 - [NANGATE15](https://si2.org/open-cell-and-free-pdk-libraries/)
 - [NANGATE45](https://si2.org/open-cell-and-free-pdk-libraries/)
 
-You can set the used technology library by acting on the ``tech_name`` variable:
+You can set the used technology library by acting on the ``technology_name`` variable:
 ```bash 
 $ make syn benchmark=rocket tech_name=asap7
 ```
