@@ -33,6 +33,8 @@ This is a guide for using the designs in the chipyard framework and synthesize t
 
 In order to setup the environment for running chipyard (simulation and synthesis) you need to obseerve the following steps:
 
+In the following ``git clone`` commands, it is assumed that SSH-keys are configured. If you just want to use the repositories, please substitute every ``git clone git@github.com:cad-polito-it/REPO_TO_DOWNLOAD.git`` with ``git clone https://github.com/cad-polito-it/REPO_TO_DOWNLOAD``.
+
 1. Download the hammer repository 
     ```bash 
     $ git clone git@github.com:cad-polito-it/hammer.git
