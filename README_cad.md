@@ -435,17 +435,19 @@ The core unit is at the following hierarchy:
 
 * For RTL-Level:
     ```verilog 
-    TestDriver.testHarness.chiptop0.system.tile_prci_domain.element_reset_domain_${CORENAME}tile.core
+    TestDriver.testHarness.chiptop0.system.tile_prci_domain.element_reset_domain_${CORENAME}.core
     ```
 
 * For Gate-Level:
     ```verilog 
-    TestDriver.TestHarness.chiptop0.system.tile_prci_domain.element_reset_domain_${CORE_NAME}tile.core
+    TestDriver.TestHarness.chiptop0.system.tile_prci_domain.element_reset_domain_${CORE_NAME}.core
     ```
 The entire CPU (with branch prediction, fetch unit etc.) is at:
 ```verilog 
-TestDriver.TestHarness.chiptop0.system.tile_prci_domain.element_reset_domain_${CORE_NAME}tile
+TestDriver.TestHarness.chiptop0.system.tile_prci_domain.element_reset_domain_${CORE_NAME}
 ```
+
+The core name can have different values (depending on the designs), such as ``rockettile`` or ``boom_tile`` or ``ibex_tile``.
 
 If you would like to execute a single action without runnign additional steps (e.g, in the following case the normal run would run the synthesis as well), you can run:
 ```bash
