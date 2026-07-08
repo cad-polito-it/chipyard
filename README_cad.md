@@ -137,7 +137,7 @@ Currently available Tehcnology library:
 
 You can set the used technology library by acting on the ``technology_name`` variable:
 ```bash 
-$ make syn benchmark=rocket tech_name=asap7
+$ make syn benchmark=rocket technology_name=asap7
 ```
 It will use the ASAP7 technology library instead of the NANGATE45
 
