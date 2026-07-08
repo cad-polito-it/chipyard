@@ -11,7 +11,7 @@
 ########################################################################################################################
 cmake_minimum_required(VERSION 3.10)
 
-project(chipyard-tests LANGUAGES C CXX ASM)
+project(chipyard-tests-ibex LANGUAGES C CXX ASM)
 
 
 #################################
@@ -21,7 +21,7 @@ project(chipyard-tests LANGUAGES C CXX ASM)
 set(CMAKE_SYSTEM_NAME         "Generic" CACHE STRING "")
 set(CMAKE_SYSTEM_PROCESSOR    "riscv"   CACHE STRING "")
 
-set(TOOLCHAIN_PREFIX    "${RISCV_32}/riscv64-unknown-elf-")
+set(TOOLCHAIN_PREFIX    "$ENV{RISCV_32}/riscv64-unknown-elf-")
 
 set(CMAKE_AR            "${TOOLCHAIN_PREFIX}ar")
 set(CMAKE_ASM_COMPILER  "${TOOLCHAIN_PREFIX}gcc")
@@ -46,24 +46,24 @@ set(CMODEL              "medany")
 set(ARCH_FLAGS          -march=${ARCH} -mabi=${ABI} -mcmodel=${CMODEL})
 
 # spec
-set(SPECS               "${CY_DIR}/toolchains/libgloss/util/htif_nano.specs")
+set(SPECS               "$ENV{CY_DIR}/toolchains/libgloss/util/htif_nano.specs")
 set(SPEC_FLAGS          -specs=${SPECS})
 
 # linker script
-set(LINKER_SCRIPT       "${CY_DIR}/tests/htif.ld")
+set(LINKER_SCRIPT       "$ENV{CY_DIR}/tests/htif.ld")
 
 add_compile_options(-std=gnu99)
 add_compile_options(-O2 -Wall -Wextra)
 add_compile_options(-fno-common -fno-builtin-printf)
 add_compile_options(${ARCH_FLAGS})
 add_compile_options(${SPEC_FLAGS})
-add_compile_options("-I${CY_DIR}/toolchains/riscv-tools/riscv-pk/machine")
+add_compile_options("-I$ENV{CY_DIR}/toolchains/riscv-tools/riscv-pk/machine")
 add_link_options(-static)
 add_link_options(${SPEC_FLAGS})
 add_link_options(-T ${LINKER_SCRIPT})
 add_link_options(${ARCH_FLAGS})
 add_link_options(${SPEC_FLAGS})
-add_link_options("-L${CY_DIR}/toolchains/libgloss/build-32/rv32imc_zicsr/ilp32/")
+add_link_options("-L$ENV{CY_DIR}/toolchains/libgloss/build-32/rv32imc_zicsr/ilp32/")
 
 
 #################################
