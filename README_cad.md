@@ -382,10 +382,10 @@ The currently available fault models are (for atpg and fsim):
 - **Transition delay fault (TDF)**: specify ``FAULT_MODEL=tdf``
 - **Small Delay faults (SDF)**: specify ``FAULT_MODEL=sdf``
 
-By default, the fault model is **stuck-at fault (saf)**. To use a different fault model, pass the ``FAULT_MODEL_ATPG`` variable:
+By default, the fault model is **stuck-at fault (saf)**. To use a different fault model, pass the ``FAULT_MODEL`` variable:
 ```bash 
 $ cd vlsi
-$ make atpg-syn benchmark=rocket FAULT_MODEL_ATPG=tdf
+$ make atpg-syn tutorial=nangate45-commercial-rocket FAULT_MODEL=tdf
 ```
 
 > **_NOTE:_** For correctly fault simulating SDF model you must use a timing annotated fault simulation (including standard delay format and slack based report from timing tool)
