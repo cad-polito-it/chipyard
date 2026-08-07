@@ -1,5 +1,4 @@
-![CHIPYARD](https://github.com/ucb-bar/chipyard/raw/main/docs/_static/images/chipyard-logo-full.png)
-![CAD](https://raw.githubusercontent.com/cad-polito-it/.github/refs/heads/main/profile/cad.png)
+![TESTYARD](.img/TESTYARD_v1.png)
 
 # VLSI Benchmarks for Hardware Testing
 
@@ -164,18 +163,20 @@ make atpg-syn benchmark=${BENCH} technology_name=${TECH} toolchain=${TOOLCHAIN} 
 ---
 ## Citation
 
-If you use this framework in your research, please cite the following publication (not yet available in IEEExplorer, to be presented at [IEEE ETS 2026](https://ets2026.uniwa.gr/conference-program/)):
+If you use this framework in your research, please cite the following publication (not yet available in IEEExplorer, presented at [IEEE ETS 2026](https://ets2026.uniwa.gr/conference-program/)):
 
 ```
-@INPROCEEDINGS{benchmarks,
-  author={Angione, Francesco and Bernardi, Paolo and di Gruttola Giardino, Nicola and Filipponi, Gabriele and Iaria, Giusy and Perlo, Giacomo and Pomeranz, Irith and Porsia, Antonio and Ruospo, Annachiara and Sanchez, Ernesto and Turco, Vittorio},
+@INPROCEEDINGS{11591740,
+  author={Angione, Francesco and Bernardi, Paolo and Giardino, Nicola Di Gruttola and Filipponi, Gabriele and Iaria, Giusy and Perlo, Giacomo and Pomeranz, Irith and Porsia, Antonio and Ruospo, Annachiara and Sanchez, Ernesto and Turco, Vittorio},
   booktitle={2026 IEEE European Test Symposium (ETS)}, 
   title={Advances in Testing and Reliability Benchmarks}, 
   year={2026},
   volume={},
   number={},
   pages={1-10},
-  }
+  keywords={Modeling;Testing;Design methodology;Hardware;Complexity theory;Printing;Simulation;Accuracy;Computer architecture;Architecture;Testing;Reliability;Benchmarks;RISC-V},
+  doi={10.1109/ETS69887.2026.11591740}}
+
 ```
 
 
