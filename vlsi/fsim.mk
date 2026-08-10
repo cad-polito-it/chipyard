@@ -6,9 +6,9 @@ FAULT_MODEL ?= saf
 # Use an empty standard fault format to force the fault list generation
 STANDARD_FAULT_FORMAT ?= ""
 ifneq ($(CUSTOM_VLOG),)
-	FSIM_OUTPUT_FOLDER          ?= $(vlsi_dir)/fsim-output/$(VLSI_TOP)
+	FSIM_OUTPUT_FOLDER          ?= $(vlsi_dir)/fsim-output/$(tech_name)/$(FAULT_MODEL)/$(VLSI_TOP)
 else
-	FSIM_OUTPUT_FOLDER          ?= $(vlsi_dir)/fsim-output/$(long_name)-$(TOP)
+	FSIM_OUTPUT_FOLDER          ?= $(vlsi_dir)/fsim-output/$(tech_name)/$(FAULT_MODEL)/$(long_name)-$(TOP)
 endif
 STROBE_MODULE ?= TestDriver.testHarness.$(VLSI_MODEL_DUT_NAME)
 

@@ -48,11 +48,9 @@ $(OBJ_DIR)/atpg-syn-input.json: private override HAMMER_EXTRA_ARGS += $(HAMMER_A
 $(OBJ_DIR)/atpg-%/atpg-output-full.json: private override HAMMER_EXTRA_ARGS += $(HAMMER_ATPG_EXTRA_ARGS)
 
 # Backwards-compatible aliases: `make atpg` -> `make atpg-syn`
-.PHONY: atpg atpg-$(VLSI_TOP)
 atpg: atpg-syn
 atpg-$(VLSI_TOP): atpg-syn-$(VLSI_TOP)
 
 # Backwards-compatible aliases: `make redo-atpg` -> `make redo-atpg-syn`
-.PHONY: redo-atpg redo-atpg-$(VLSI_TOP)
 redo-atpg: redo-atpg-syn
 redo-atpg-$(VLSI_TOP): redo-atpg-syn-$(VLSI_TOP)
