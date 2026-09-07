@@ -16,9 +16,12 @@ def add_options(x: HammerTool) -> bool:
         if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
             x.append("set_app_var compile_assume_fully_decoded_three_state_busses true")
     if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
+        x.append("set_app_var compile_assume_fully_decoded_three_state_busses true")
         x.append("set_app_var test_validate_test_model_connectivity true")
         x.append("set_app_var compile_seqmap_identify_shift_registers_with_synchronous_logic true")
         x.append("set_app_var compile_seqmap_identify_shift_registers true")
+        x.append("set_app_var verilogout_no_tri true")
+        x.append("set_app_var test_setup_additional_clock_pulse true")
         #x.append("set_app_var hdlin_elaborate_black_box \"nv_ram_*\"")
         x.append("set_app_var compile_seqmap_propagate_high_effort false")
         x.append("set_app_var compile_restructure_sync_set_reset true")
@@ -59,10 +62,41 @@ def connect_black_box_signals(x: HammerTool) -> bool:
         else:
             x.logger.error("Current technology does not have any definitions for inverter cells")                                      
     return True
+def connect_black_box_signals(x: HammerTool) -> bool:
+    if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc": 
+    # Connect top level black box's signals (unconnected) to scan signals                     
+        x.append("set pin [get_pins system/domain/nvdla/u_nvdla/nvdla_top/test_mode]")                                                                        
+        x.append("disconnect_net [all_connected $pin] $pin")                                                                                                  
+        x.append("connect_pin -from [get_port test_mode]  -to $pin  -port_name test_mode_i_core")        
+
+        x.append("set_dft_drc_rules -ignore {TEST-504}")
+        x.append("set_dft_drc_rules -ignore {TEST-505}")
+        # There is an unexpected inversion on the reset line between the top-level and the block-level and dft insertion get lost.
+        # Create inverter cell with highest strength
+        gate_cells = x.technology.get_special_cell_by_type(CellType.CTSInverter)
+        if len(gate_cells) > 0:
+            selected_cell = gate_cells[-1].name[-1]
+            # Inverters have single i/os
+            input = gate_cells[-1].input_ports[-1]
+            output = gate_cells[-1].output_ports[-1]
+            x.append(f"create_cell system/domain/nvdla/inv_rst  {x.technology.config.name}/{selected_cell}")
+            x.append("disconnect_net [all_connected system/domain/nvdla/u_nvdla/rstn] system/domain/nvdla/u_nvdla/rstn")
+            x.append("disconnect_net [all_connected system/domain/nvdla/u_nvdla/csb_rstn] system/domain/nvdla/u_nvdla/csb_rstn")
+            x.append(f"connect_pin -from [get_port reset_io]  -to system/domain/nvdla/inv_rst/{input}  -port_name reset_io_i")    
+            x.append(f"connect_pin -from system/domain/nvdla/inv_rst/{output} -to system/domain/nvdla/u_nvdla/rstn  -port_name reset_inverted_i")
+            x.append(f"connect_pin -from system/domain/nvdla/inv_rst/{output} -to system/domain/nvdla/u_nvdla/csb_rstn  -port_name reset_inverted_i_2")        
+        else:
+            x.logger.error("Current technology does not have any definitions for inverter cells")                                      
+    return True
 
 def insert_internal_memory_collar(x: HammerTool) -> bool:
     if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
         if x.get_setting("synthesis.insert_dft.memory_wrapper"):
+            x.append("set srams_tp [get_references -hierarchical -filter \"name =~ *nv_ram_*\"]")
+            x.append("foreach_in_collection s $srams_tp {")
+            x.append(x.insert_test_points(["$s"]))
+            x.append("}")
+
             x.append("set srams_tp [get_references -hierarchical -filter \"name =~ *nv_ram_*\"]")
             x.append("foreach_in_collection s $srams_tp {")
             x.append(x.insert_test_points(["$s"]))
@@ -90,10 +124,24 @@ def add_black_boxes(x: HammerTool) -> bool:
         x.append("  set_attribute $ram is_physical_black_box true" )
         x.append("  set_dont_touch $ram")
         x.append("}")
+        # This is equivalent of setting the nv_ram_* as black boxes with x.append("set_app_var hdlin_elaborate_black_box \"nv_ram_*\"")
+        # The only difference is based on an additional step to be executed at the end of the synthesis for
+        # removing the empty modules (see vlsi-cva6) for simplify the simulation 
+        x.append("remove_design [get_designs -hierarchical -filter \"name =~ *nv_ram_*\"]")
+        x.append("foreach f [glob -nocomplain ./WORK/NV_RAM_* ./WORK/nv_ram_*] {")
+        x.append("    file delete -force $f")
+        x.append("}")
+        x.append("link")
+        x.append("foreach_in_collection ram [get_references -hierarchical -filter \"name =~ *nv_ram_*\"] {")
+        x.append("  set_attribute $ram is_memory_cell true")
+        x.append("  set_attribute $ram is_physical_black_box true" )
+        x.append("  set_dont_touch $ram")
+        x.append("}")
     return True 
 
 def insert_nofaults_modules(x: HammerTool) -> bool:
     # Do not add faults around the following modules
+    x.additional_modules = ["nv_ram_.*"]
     x.additional_modules = ["nv_ram_.*"]
     return True
 
@@ -108,6 +156,8 @@ class ExampleDriver(CLIDriver):
             HammerTool.make_post_insertion_hook("init_environment", add_options),
             HammerTool.make_post_insertion_hook("elaborate_design", add_black_boxes),
             HammerTool.make_pre_insertion_hook("configure_dft", connect_clk_en_reg),
+            HammerTool.make_post_insertion_hook("configure_dft", insert_internal_memory_collar),
+            HammerTool.make_post_insertion_hook("configure_dft", connect_black_box_signals)
             HammerTool.make_post_insertion_hook("configure_dft", insert_internal_memory_collar),
             HammerTool.make_post_insertion_hook("configure_dft", connect_black_box_signals)
 
