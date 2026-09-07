@@ -5,6 +5,7 @@ vlsi.core.synthesis_tool: "hammer.synthesis.dc"
 synthesis.dc.version: "SYN_2025.06-SP4"
 synthesis.spyglass.version: "2025.06-SP2"
 synthesis.library_compiler.version: "LC_2025.06-SP2"
+synthesis.library_compiler.lc_bin: "${synopsys.synopsys_home}/LC_${synthesis.library_compiler.version}/bin/lc_shell"
 vlsi.core.synthesis_tool.compile_args : ["-scan", "-incremental", " -no_autoungroup" , "-no_boundary_optimization"]
 vlsi.core.max_threads: 16
 # Innovus options
