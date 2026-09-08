@@ -142,7 +142,6 @@ def add_black_boxes(x: HammerTool) -> bool:
 def insert_nofaults_modules(x: HammerTool) -> bool:
     # Do not add faults around the following modules
     x.additional_modules = ["nv_ram_.*"]
-    x.additional_modules = ["nv_ram_.*"]
     return True
 
 def add_constraints(x: HammerTool) -> bool:
