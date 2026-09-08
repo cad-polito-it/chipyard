@@ -112,8 +112,8 @@ def insert_internal_memory_collar(x: HammerTool) -> bool:
 def add_black_boxes(x: HammerTool) -> bool:
     if x.get_setting("vlsi.core.synthesis_tool") == "hammer.synthesis.dc":
         # This is equivalent of setting the nv_ram_* as black boxes with x.append("set_app_var hdlin_elaborate_black_box \"nv_ram_*\"")
-        # The only difference is based on an additional step to be executed at the end of the synthesis for
-        # removing the empty modules (see vlsi-cva6) for simplify the simulation 
+        # The only difference is an additional step executed at the end of synthesis to
+        # remove empty modules (see vlsi-cva6) to simplify simulation.
         x.append("remove_design [get_designs -hierarchical -filter \"name =~ *nv_ram_*\"]")
         x.append("foreach f [glob -nocomplain ./WORK/NV_RAM_* ./WORK/nv_ram_*] {")
         x.append("    file delete -force $f")
