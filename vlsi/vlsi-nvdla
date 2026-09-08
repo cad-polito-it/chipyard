@@ -158,9 +158,6 @@ class ExampleDriver(CLIDriver):
             HammerTool.make_pre_insertion_hook("configure_dft", connect_clk_en_reg),
             HammerTool.make_post_insertion_hook("configure_dft", insert_internal_memory_collar),
             HammerTool.make_post_insertion_hook("configure_dft", connect_black_box_signals)
-            HammerTool.make_post_insertion_hook("configure_dft", insert_internal_memory_collar),
-            HammerTool.make_post_insertion_hook("configure_dft", connect_black_box_signals)
-
         ]
         return extra_hooks
 
